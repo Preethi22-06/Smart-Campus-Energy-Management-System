@@ -1,5 +1,6 @@
 package com.preethi.smartcampus.entity;
-
+import jakarta.persistence.OneToMany;
+import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +16,8 @@ public class Building {
     private String buildingName;
 
     private int numberOfFloors;
+    @OneToMany(mappedBy = "building")
+private List<Floor> floors;
 
     public Building() {
     }
@@ -42,4 +45,11 @@ public class Building {
     public void setNumberOfFloors(int numberOfFloors) {
         this.numberOfFloors = numberOfFloors;
     }
+    public List<Floor> getFloors() {
+    return floors;
+}
+
+public void setFloors(List<Floor> floors) {
+    this.floors = floors;
+}
 }
