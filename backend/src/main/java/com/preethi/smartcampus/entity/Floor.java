@@ -1,5 +1,6 @@
 package com.preethi.smartcampus.entity;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -12,12 +13,14 @@ public class Floor {
 
     private int floorNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "building_id")
-    private Building building;
+    @JsonBackReference
+@ManyToOne
+@JoinColumn(name = "building_id")
+private Building building;
 
-    @OneToMany(mappedBy = "floor")
-    private List<Room> rooms;
+   @JsonManagedReference
+@OneToMany(mappedBy = "floor")
+private List<Room> rooms;
 
     public Floor() {
     }

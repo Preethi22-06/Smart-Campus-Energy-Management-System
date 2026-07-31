@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Building {
@@ -16,7 +17,8 @@ public class Building {
     private String buildingName;
 
     private int numberOfFloors;
-    @OneToMany(mappedBy = "building")
+   @JsonManagedReference
+@OneToMany(mappedBy = "building")
 private List<Floor> floors;
 
     public Building() {
