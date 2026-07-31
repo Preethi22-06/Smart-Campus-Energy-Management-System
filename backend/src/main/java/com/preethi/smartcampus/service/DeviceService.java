@@ -20,4 +20,14 @@ public class DeviceService {
     public Device saveDevice(Device device) {
         return deviceRepository.save(device);
     }
+    public Device updateDeviceStatus(Long id, String status) {
+    Device device = deviceRepository.findById(id).orElse(null);
+
+    if (device != null) {
+        device.setStatus(status);
+        return deviceRepository.save(device);
+    }
+
+    return null;
+}
 }

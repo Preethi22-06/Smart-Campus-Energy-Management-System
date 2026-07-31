@@ -23,4 +23,13 @@ public class DeviceController {
     public Device saveDevice(@RequestBody Device device) {
         return deviceService.saveDevice(device);
     }
+    @PutMapping("/{id}/on")
+public Device turnOnDevice(@PathVariable Long id) {
+    return deviceService.updateDeviceStatus(id, "ON");
+}
+
+@PutMapping("/{id}/off")
+public Device turnOffDevice(@PathVariable Long id) {
+    return deviceService.updateDeviceStatus(id, "OFF");
+}
 }
