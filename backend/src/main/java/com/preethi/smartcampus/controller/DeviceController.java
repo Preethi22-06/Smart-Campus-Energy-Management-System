@@ -32,4 +32,21 @@ public Device turnOnDevice(@PathVariable Long id) {
 public Device turnOffDevice(@PathVariable Long id) {
     return deviceService.updateDeviceStatus(id, "OFF");
 }
+@GetMapping("/{id}")
+public Device getDeviceById(@PathVariable Long id) {
+    return deviceService.getDeviceById(id);
+}
+@GetMapping("/room/{roomId}")
+public List<Device> getDevicesByRoom(@PathVariable Long roomId) {
+    return deviceService.getDevicesByRoomId(roomId);
+}
+@GetMapping("/count/on")
+public long countOnDevices() {
+    return deviceService.countOnDevices();
+}
+
+@GetMapping("/count/off")
+public long countOffDevices() {
+    return deviceService.countOffDevices();
+}
 }

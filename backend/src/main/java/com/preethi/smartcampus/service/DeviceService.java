@@ -22,12 +22,26 @@ public class DeviceService {
     }
     public Device updateDeviceStatus(Long id, String status) {
     Device device = deviceRepository.findById(id).orElse(null);
+    
 
     if (device != null) {
         device.setStatus(status);
         return deviceRepository.save(device);
     }
-
+ 
     return null;
+}
+public Device getDeviceById(Long id) {
+    return deviceRepository.findById(id).orElse(null);
+}
+public List<Device> getDevicesByRoomId(Long roomId) {
+    return deviceRepository.findByRoomId(roomId);
+}
+public long countOnDevices() {
+    return deviceRepository.countByStatus("ON");
+}
+
+public long countOffDevices() {
+    return deviceRepository.countByStatus("OFF");
 }
 }
