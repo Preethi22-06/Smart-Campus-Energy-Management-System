@@ -49,4 +49,18 @@ public long countOnDevices() {
 public long countOffDevices() {
     return deviceService.countOffDevices();
 }
+@PutMapping("/{id}/power")
+public Device updatePowerRating(
+        @PathVariable Long id,
+        @RequestParam double powerRating) {
+
+    return deviceService.updatePowerRating(id, powerRating);
+}
+@GetMapping("/{id}/energy")
+public double calculateEnergyConsumption(
+        @PathVariable Long id,
+        @RequestParam double hours) {
+
+    return deviceService.calculateEnergyConsumption(id, hours);
+}
 }

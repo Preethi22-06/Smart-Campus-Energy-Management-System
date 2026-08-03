@@ -44,4 +44,25 @@ public long countOnDevices() {
 public long countOffDevices() {
     return deviceRepository.countByStatus("OFF");
 }
+public Device updatePowerRating(Long id, double powerRating) {
+
+    Device device = deviceRepository.findById(id).orElse(null);
+
+    if (device != null) {
+        device.setPowerRating(powerRating);
+        return deviceRepository.save(device);
+    }
+
+    return null;
+}
+public double calculateEnergyConsumption(Long id, double hours) {
+
+    Device device = deviceRepository.findById(id).orElse(null);
+
+    if (device != null) {
+        return (device.getPowerRating() * hours) / 1000;
+    }
+
+    return 0;
+}
 }

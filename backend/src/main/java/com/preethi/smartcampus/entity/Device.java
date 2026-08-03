@@ -1,4 +1,5 @@
 package com.preethi.smartcampus.entity;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
@@ -15,10 +16,12 @@ public class Device {
 
     private String status;
 
-   @JsonBackReference
-@ManyToOne
-@JoinColumn(name = "room_id")
-private Room room;
+    private double powerRating;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 
     public Device() {
     }
@@ -39,6 +42,10 @@ private Room room;
         return status;
     }
 
+    public double getPowerRating() {
+        return powerRating;
+    }
+
     public Room getRoom() {
         return room;
     }
@@ -57,6 +64,10 @@ private Room room;
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setPowerRating(double powerRating) {
+        this.powerRating = powerRating;
     }
 
     public void setRoom(Room room) {
