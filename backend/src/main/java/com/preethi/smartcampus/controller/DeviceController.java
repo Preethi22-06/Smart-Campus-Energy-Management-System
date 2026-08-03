@@ -63,4 +63,12 @@ public double calculateEnergyConsumption(
 
     return deviceService.calculateEnergyConsumption(id, hours);
 }
+@GetMapping("/{id}/cost")
+public double calculateEnergyCost(
+        @PathVariable Long id,
+        @RequestParam double hours,
+        @RequestParam double rate) {
+
+    return deviceService.calculateEnergyCost(id, hours, rate);
+}
 }

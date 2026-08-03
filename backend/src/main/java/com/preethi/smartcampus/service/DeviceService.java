@@ -65,4 +65,10 @@ public double calculateEnergyConsumption(Long id, double hours) {
 
     return 0;
 }
+public double calculateEnergyCost(Long id, double hours, double rate) {
+
+    double energy = calculateEnergyConsumption(id, hours);
+
+    return energy * rate;
+}
 }
