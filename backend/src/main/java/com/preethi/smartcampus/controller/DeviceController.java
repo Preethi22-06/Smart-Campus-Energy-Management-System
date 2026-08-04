@@ -71,4 +71,19 @@ public double calculateEnergyCost(
 
     return deviceService.calculateEnergyCost(id, hours, rate);
 }
+@GetMapping("/count")
+public long countAllDevices() {
+    return deviceService.countAllDevices();
+}
+@GetMapping("/energy/total")
+public double calculateTotalEnergy(@RequestParam double hours) {
+    return deviceService.calculateTotalEnergy(hours);
+}
+@GetMapping("/cost/total")
+public double calculateTotalCost(
+        @RequestParam double hours,
+        @RequestParam double rate) {
+
+    return deviceService.calculateTotalCost(hours, rate);
+}
 }

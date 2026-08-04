@@ -71,4 +71,25 @@ public double calculateEnergyCost(Long id, double hours, double rate) {
 
     return energy * rate;
 }
+public long countAllDevices() {
+    return deviceRepository.count();
+}
+public double calculateTotalEnergy(double hours) {
+
+    List<Device> devices = deviceRepository.findAll();
+
+    double totalEnergy = 0;
+
+    for (Device device : devices) {
+        totalEnergy += (device.getPowerRating() * hours) / 1000;
+    }
+
+    return totalEnergy;
+}
+public double calculateTotalCost(double hours, double rate) {
+
+    double totalEnergy = calculateTotalEnergy(hours);
+
+    return totalEnergy * rate;
+}
 }
