@@ -94,4 +94,15 @@ public String getDeviceEnergySummary(
 
     return deviceService.getDeviceEnergySummary(id, hours, rate);
 }
+@GetMapping("/status/{status}")
+public List<Device> getDevicesByStatus(@PathVariable String status) {
+    return deviceService.getDevicesByStatus(status);
+}
+@GetMapping("/room/{roomId}/status/{status}")
+public List<Device> getDevicesByRoomAndStatus(
+        @PathVariable Long roomId,
+        @PathVariable String status) {
+
+    return deviceService.getDevicesByRoomAndStatus(roomId, status);
+}
 }

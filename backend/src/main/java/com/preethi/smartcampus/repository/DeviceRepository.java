@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface DeviceRepository extends JpaRepository<Device, Long> {
 List<Device> findByRoomId(Long roomId);
 long countByStatus(String status);
+List<Device> findByStatus(String status);
+List<Device> findByRoomIdAndStatus(Long roomId, String status);
 }

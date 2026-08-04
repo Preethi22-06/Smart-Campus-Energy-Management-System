@@ -108,4 +108,10 @@ public String getDeviceEnergySummary(Long id, double hours, double rate) {
 
     return "Device not found";
 }
+public List<Device> getDevicesByStatus(String status) {
+    return deviceRepository.findByStatus(status);
+}
+public List<Device> getDevicesByRoomAndStatus(Long roomId, String status) {
+    return deviceRepository.findByRoomIdAndStatus(roomId, status);
+}
 }
