@@ -86,4 +86,12 @@ public double calculateTotalCost(
 
     return deviceService.calculateTotalCost(hours, rate);
 }
+@GetMapping("/{id}/energy-summary")
+public String getDeviceEnergySummary(
+        @PathVariable Long id,
+        @RequestParam double hours,
+        @RequestParam double rate) {
+
+    return deviceService.getDeviceEnergySummary(id, hours, rate);
+}
 }

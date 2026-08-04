@@ -92,4 +92,20 @@ public double calculateTotalCost(double hours, double rate) {
 
     return totalEnergy * rate;
 }
+public String getDeviceEnergySummary(Long id, double hours, double rate) {
+
+    Device device = deviceRepository.findById(id).orElse(null);
+
+    if (device != null) {
+
+        double energy = (device.getPowerRating() * hours) / 1000;
+        double cost = energy * rate;
+
+        return "Device: " + device.getDeviceName()
+                + ", Energy: " + energy + " kWh"
+                + ", Cost: ₹" + cost;
+    }
+
+    return "Device not found";
+}
 }
