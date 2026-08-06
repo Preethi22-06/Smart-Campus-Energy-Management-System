@@ -114,4 +114,20 @@ public List<Device> getDevicesByStatus(String status) {
 public List<Device> getDevicesByRoomAndStatus(Long roomId, String status) {
     return deviceRepository.findByRoomIdAndStatus(roomId, status);
 }
+public String getDeviceAlert(Long id) {
+
+    Device device = deviceRepository.findById(id).orElse(null);
+
+    if (device == null) {
+        return "Device not found";
+    }
+
+    if ("ON".equals(device.getStatus())) {
+        return "⚠️ Device " + device.getDeviceName()
+                + " is currently ON. Please check if it should be switched off.";
+    }
+
+    return "✅ Device " + device.getDeviceName()
+            + " is OFF. No action required.";
+}
 }

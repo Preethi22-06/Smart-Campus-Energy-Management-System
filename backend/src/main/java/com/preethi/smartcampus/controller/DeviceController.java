@@ -105,4 +105,8 @@ public List<Device> getDevicesByRoomAndStatus(
 
     return deviceService.getDevicesByRoomAndStatus(roomId, status);
 }
+@GetMapping("/{id}/alert")
+public String getDeviceAlert(@PathVariable Long id) {
+    return deviceService.getDeviceAlert(id);
+}
 }
