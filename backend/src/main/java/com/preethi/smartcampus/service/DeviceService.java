@@ -130,4 +130,22 @@ public String getDeviceAlert(Long id) {
     return "✅ Device " + device.getDeviceName()
             + " is OFF. No action required.";
 }
+public double calculateRoomEnergy(Long roomId, double hours) {
+
+    List<Device> devices = deviceRepository.findByRoomId(roomId);
+
+    double totalEnergy = 0;
+
+    for (Device device : devices) {
+        totalEnergy += (device.getPowerRating() * hours) / 1000;
+    }
+
+    return totalEnergy;
+}
+public double calculateRoomCost(Long roomId, double hours, double rate) {
+
+    double totalEnergy = calculateRoomEnergy(roomId, hours);
+
+    return totalEnergy * rate;
+}
 }

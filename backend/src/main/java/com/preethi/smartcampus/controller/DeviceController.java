@@ -109,4 +109,19 @@ public List<Device> getDevicesByRoomAndStatus(
 public String getDeviceAlert(@PathVariable Long id) {
     return deviceService.getDeviceAlert(id);
 }
+@GetMapping("/room/{roomId}/energy")
+public double calculateRoomEnergy(
+        @PathVariable Long roomId,
+        @RequestParam double hours) {
+
+    return deviceService.calculateRoomEnergy(roomId, hours);
+}
+@GetMapping("/room/{roomId}/cost")
+public double calculateRoomCost(
+        @PathVariable Long roomId,
+        @RequestParam double hours,
+        @RequestParam double rate) {
+
+    return deviceService.calculateRoomCost(roomId, hours, rate);
+}
 }
