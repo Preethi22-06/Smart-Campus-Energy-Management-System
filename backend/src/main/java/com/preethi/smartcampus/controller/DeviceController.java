@@ -132,4 +132,16 @@ public Device getHighestPowerDevice() {
 public Device getHighestPowerDeviceByRoom(@PathVariable Long roomId) {
     return deviceService.getHighestPowerDeviceByRoom(roomId);
 }
+@GetMapping("/power/total")
+public double calculateTotalPower() {
+    return deviceService.calculateTotalPower();
+}
+@GetMapping("/room/{roomId}/power")
+public double calculateRoomPower(@PathVariable Long roomId) {
+    return deviceService.calculateRoomPower(roomId);
+}
+@GetMapping("/room/{roomId}/power/active")
+public double calculateActiveRoomPower(@PathVariable Long roomId) {
+    return deviceService.calculateActiveRoomPower(roomId);
+}
 }

@@ -185,5 +185,40 @@ public Device getHighestPowerDeviceByRoom(Long roomId) {
 
     return highest;
 }
+public double calculateTotalPower() {
 
+    List<Device> devices = deviceRepository.findAll();
+
+    double totalPower = 0;
+
+    for (Device device : devices) {
+        totalPower += device.getPowerRating();
+    }
+
+    return totalPower;
+}
+public double calculateRoomPower(Long roomId) {
+
+    List<Device> devices = deviceRepository.findByRoomId(roomId);
+
+    double totalPower = 0;
+
+    for (Device device : devices) {
+        totalPower += device.getPowerRating();
+    }
+
+    return totalPower;
+}
+public double calculateActiveRoomPower(Long roomId) {
+
+    List<Device> devices = deviceRepository.findByRoomIdAndStatus(roomId, "ON");
+
+    double totalPower = 0;
+
+    for (Device device : devices) {
+        totalPower += device.getPowerRating();
+    }
+
+    return totalPower;
+}
 }
