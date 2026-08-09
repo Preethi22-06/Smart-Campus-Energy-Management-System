@@ -5,6 +5,7 @@ import com.preethi.smartcampus.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 
 @Service
@@ -148,4 +149,41 @@ public double calculateRoomCost(Long roomId, double hours, double rate) {
 
     return totalEnergy * rate;
 }
+public Device getHighestPowerDevice() {
+
+    List<Device> devices = deviceRepository.findAll();
+
+    if (devices.isEmpty()) {
+        return null;
+    }
+
+    Device highest = devices.get(0);
+
+    for (Device device : devices) {
+        if (device.getPowerRating() > highest.getPowerRating()) {
+            highest = device;
+        }
+    }
+
+    return highest;
+}
+public Device getHighestPowerDeviceByRoom(Long roomId) {
+
+    List<Device> devices = deviceRepository.findByRoomId(roomId);
+
+    if (devices.isEmpty()) {
+        return null;
+    }
+
+    Device highest = devices.get(0);
+
+    for (Device device : devices) {
+        if (device.getPowerRating() > highest.getPowerRating()) {
+            highest = device;
+        }
+    }
+
+    return highest;
+}
+
 }

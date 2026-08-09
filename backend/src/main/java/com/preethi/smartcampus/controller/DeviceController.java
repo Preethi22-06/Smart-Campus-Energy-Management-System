@@ -124,4 +124,12 @@ public double calculateRoomCost(
 
     return deviceService.calculateRoomCost(roomId, hours, rate);
 }
+@GetMapping("/highest-power")
+public Device getHighestPowerDevice() {
+    return deviceService.getHighestPowerDevice();
+}
+@GetMapping("/room/{roomId}/highest-power")
+public Device getHighestPowerDeviceByRoom(@PathVariable Long roomId) {
+    return deviceService.getHighestPowerDeviceByRoom(roomId);
+}
 }
