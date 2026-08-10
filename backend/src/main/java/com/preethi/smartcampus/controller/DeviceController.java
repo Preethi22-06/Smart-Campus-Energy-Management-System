@@ -1,5 +1,5 @@
 package com.preethi.smartcampus.controller;
-
+import com.preethi.smartcampus.dto.RoomAlertResponse;
 import com.preethi.smartcampus.entity.Device;
 import com.preethi.smartcampus.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,5 +159,9 @@ public long countDevicesByRoom(@PathVariable Long roomId) {
 @GetMapping("/room/{roomId}/alert")
 public String getRoomAlert(@PathVariable Long roomId) {
     return deviceService.getRoomAlert(roomId);
+}
+@GetMapping("/room/{roomId}/alert-summary")
+public RoomAlertResponse getRoomAlertSummary(@PathVariable Long roomId) {
+    return deviceService.getRoomAlertSummary(roomId);
 }
 }
