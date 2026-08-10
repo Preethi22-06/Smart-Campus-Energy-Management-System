@@ -156,4 +156,8 @@ public long countOffDevicesByRoom(@PathVariable Long roomId) {
 public long countDevicesByRoom(@PathVariable Long roomId) {
     return deviceService.countDevicesByRoom(roomId);
 }
+@GetMapping("/room/{roomId}/alert")
+public String getRoomAlert(@PathVariable Long roomId) {
+    return deviceService.getRoomAlert(roomId);
+}
 }
