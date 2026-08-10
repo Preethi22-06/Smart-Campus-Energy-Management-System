@@ -221,4 +221,16 @@ public double calculateActiveRoomPower(Long roomId) {
 
     return totalPower;
 }
+public long countOnDevicesByRoom(Long roomId) {
+
+    return deviceRepository.countByRoomIdAndStatus(roomId, "ON");
+}
+public long countOffDevicesByRoom(Long roomId) {
+
+    return deviceRepository.countByRoomIdAndStatus(roomId, "OFF");
+}
+public long countDevicesByRoom(Long roomId) {
+
+    return deviceRepository.countByRoomId(roomId);
+}
 }

@@ -144,4 +144,16 @@ public double calculateRoomPower(@PathVariable Long roomId) {
 public double calculateActiveRoomPower(@PathVariable Long roomId) {
     return deviceService.calculateActiveRoomPower(roomId);
 }
+@GetMapping("/room/{roomId}/count/on")
+public long countOnDevicesByRoom(@PathVariable Long roomId) {
+    return deviceService.countOnDevicesByRoom(roomId);
+}
+@GetMapping("/room/{roomId}/count/off")
+public long countOffDevicesByRoom(@PathVariable Long roomId) {
+    return deviceService.countOffDevicesByRoom(roomId);
+}
+@GetMapping("/room/{roomId}/count")
+public long countDevicesByRoom(@PathVariable Long roomId) {
+    return deviceService.countDevicesByRoom(roomId);
+}
 }

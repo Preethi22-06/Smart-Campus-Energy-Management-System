@@ -10,4 +10,6 @@ List<Device> findByRoomId(Long roomId);
 long countByStatus(String status);
 List<Device> findByStatus(String status);
 List<Device> findByRoomIdAndStatus(Long roomId, String status);
+long countByRoomIdAndStatus(Long roomId, String status);
+long countByRoomId(Long roomId);
 }
