@@ -1,5 +1,5 @@
 package com.preethi.smartcampus.service;
-
+import com.preethi.smartcampus.dto.RoomAlertResponse;
 import com.preethi.smartcampus.entity.Device;
 import com.preethi.smartcampus.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -243,5 +243,25 @@ public String getRoomAlert(Long roomId) {
     }
 
     return "✅ No action required: All devices are OFF.";
+}
+public RoomAlertResponse getRoomAlertSummary(Long roomId) {
+
+    long onDevices = deviceRepository.countByRoomIdAndStatus(roomId, "ON");
+
+    if (onDevices > 0) {
+        return new RoomAlertResponse(
+                roomId,
+                onDevices,
+                true,
+                "Attention required"
+        );
+    }
+
+    return new RoomAlertResponse(
+            roomId,
+            0,
+            false,
+            "No action required"
+    );
 }
 }
