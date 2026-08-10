@@ -233,4 +233,15 @@ public long countDevicesByRoom(Long roomId) {
 
     return deviceRepository.countByRoomId(roomId);
 }
+public String getRoomAlert(Long roomId) {
+
+    long onDevices = deviceRepository.countByRoomIdAndStatus(roomId, "ON");
+
+    if (onDevices > 0) {
+        return "⚠️ Attention required: " + onDevices
+                + " device(s) are currently ON in this room.";
+    }
+
+    return "✅ No action required: All devices are OFF.";
+}
 }
