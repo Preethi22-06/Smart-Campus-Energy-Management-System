@@ -264,4 +264,7 @@ public RoomAlertResponse getRoomAlertSummary(Long roomId) {
             "No action required"
     );
 }
+public List<Device> getOnDevices() {
+    return deviceRepository.findByStatus("ON");
+}
 }
