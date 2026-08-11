@@ -267,4 +267,10 @@ public RoomAlertResponse getRoomAlertSummary(Long roomId) {
 public List<Device> getOnDevices() {
     return deviceRepository.findByStatus("ON");
 }
+public List<Device> getOffDevices() {
+    return deviceRepository.findByStatus("OFF");
+}
+public long countActiveDevices() {
+    return deviceRepository.countByStatus("ON");
+}
 }

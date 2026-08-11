@@ -164,4 +164,20 @@ public String getRoomAlert(@PathVariable Long roomId) {
 public RoomAlertResponse getRoomAlertSummary(@PathVariable Long roomId) {
     return deviceService.getRoomAlertSummary(roomId);
 }
+@GetMapping("/on")
+public List<Device> getOnDevices() {
+    return deviceService.getOnDevices();
+}
+@GetMapping("/off")
+public List<Device> getOffDevices() {
+    return deviceService.getOffDevices();
+}
+@GetMapping("/active/count")
+public long countActiveDevices() {
+    return deviceService.countActiveDevices();
+}
+@GetMapping("/room/{roomId}/on")
+public List<Device> getOnDevicesByRoom(@PathVariable Long roomId) {
+    return deviceService.getDevicesByRoomAndStatus(roomId, "ON");
+}
 }
