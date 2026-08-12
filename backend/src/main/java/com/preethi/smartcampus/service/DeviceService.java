@@ -1,10 +1,12 @@
 package com.preethi.smartcampus.service;
+import com.preethi.smartcampus.dto.CampusDeviceSummaryResponse;
 import com.preethi.smartcampus.dto.RoomAlertResponse;
 import com.preethi.smartcampus.dto.RoomDeviceSummaryResponse;
 import com.preethi.smartcampus.entity.Device;
 import com.preethi.smartcampus.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 
 import java.util.List;
@@ -283,6 +285,26 @@ public RoomDeviceSummaryResponse getRoomDeviceSummary(Long roomId) {
 
     return new RoomDeviceSummaryResponse(
             roomId,
+            totalDevices,
+            onDevices,
+            offDevices,
+            activePower
+    );
+}
+public CampusDeviceSummaryResponse getCampusDeviceSummary() {
+
+    long totalDevices = deviceRepository.count();
+    long onDevices = deviceRepository.countByStatus("ON");
+    long offDevices = deviceRepository.countByStatus("OFF");
+    double activePower = 0;
+
+    List<Device> devices = deviceRepository.findByStatus("ON");
+
+    for (Device device : devices) {
+        activePower += device.getPowerRating();
+    }
+
+    return new CampusDeviceSummaryResponse(
             totalDevices,
             onDevices,
             offDevices,
