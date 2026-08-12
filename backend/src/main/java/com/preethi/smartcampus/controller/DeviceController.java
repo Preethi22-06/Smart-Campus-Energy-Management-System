@@ -191,4 +191,11 @@ public RoomDeviceSummaryResponse getRoomDeviceSummary(@PathVariable Long roomId)
 public CampusDeviceSummaryResponse getCampusDeviceSummary() {
     return deviceService.getCampusDeviceSummary();
 }
+@GetMapping("/{id}/energy/active")
+public double calculateActiveEnergyConsumption(
+        @PathVariable Long id,
+        @RequestParam double hours) {
+
+    return deviceService.calculateActiveEnergyConsumption(id, hours);
+}
 }

@@ -311,4 +311,14 @@ public CampusDeviceSummaryResponse getCampusDeviceSummary() {
             activePower
     );
 }
+public double calculateActiveEnergyConsumption(Long id, double hours) {
+
+    Device device = deviceRepository.findById(id).orElse(null);
+
+    if (device != null && "ON".equals(device.getStatus())) {
+        return (device.getPowerRating() * hours) / 1000;
+    }
+
+    return 0;
+}
 }
