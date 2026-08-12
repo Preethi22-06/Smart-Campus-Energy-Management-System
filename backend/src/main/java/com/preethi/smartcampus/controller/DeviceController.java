@@ -213,4 +213,8 @@ public double calculateActiveRoomCost(
 
     return deviceService.calculateActiveRoomCost(roomId, hours, rate);
 }
+@GetMapping("/highest-power/active")
+public Device getHighestPowerActiveDevice() {
+    return deviceService.getHighestPowerActiveDevice();
+}
 }

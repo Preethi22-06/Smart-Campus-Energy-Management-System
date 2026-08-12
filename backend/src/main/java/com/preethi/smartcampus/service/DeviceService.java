@@ -340,4 +340,22 @@ public double calculateActiveRoomCost(Long roomId, double hours, double rate) {
 
     return activeEnergy * rate;
 }
+public Device getHighestPowerActiveDevice() {
+
+    List<Device> devices = deviceRepository.findByStatus("ON");
+
+    if (devices.isEmpty()) {
+        return null;
+    }
+
+    Device highest = devices.get(0);
+
+    for (Device device : devices) {
+        if (device.getPowerRating() > highest.getPowerRating()) {
+            highest = device;
+        }
+    }
+
+    return highest;
+}
 }
