@@ -321,4 +321,17 @@ public double calculateActiveEnergyConsumption(Long id, double hours) {
 
     return 0;
 }
+public double calculateActiveRoomEnergy(Long roomId, double hours) {
+
+    List<Device> devices =
+            deviceRepository.findByRoomIdAndStatus(roomId, "ON");
+
+    double totalEnergy = 0;
+
+    for (Device device : devices) {
+        totalEnergy += (device.getPowerRating() * hours) / 1000;
+    }
+
+    return totalEnergy;
+}
 }
