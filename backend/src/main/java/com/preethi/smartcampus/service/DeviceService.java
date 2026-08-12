@@ -334,4 +334,10 @@ public double calculateActiveRoomEnergy(Long roomId, double hours) {
 
     return totalEnergy;
 }
+public double calculateActiveRoomCost(Long roomId, double hours, double rate) {
+
+    double activeEnergy = calculateActiveRoomEnergy(roomId, hours);
+
+    return activeEnergy * rate;
+}
 }

@@ -205,4 +205,12 @@ public double calculateActiveRoomEnergy(
 
     return deviceService.calculateActiveRoomEnergy(roomId, hours);
 }
+@GetMapping("/room/{roomId}/cost/active")
+public double calculateActiveRoomCost(
+        @PathVariable Long roomId,
+        @RequestParam double hours,
+        @RequestParam double rate) {
+
+    return deviceService.calculateActiveRoomCost(roomId, hours, rate);
+}
 }
