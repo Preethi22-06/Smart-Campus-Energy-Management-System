@@ -281,14 +281,20 @@ public RoomDeviceSummaryResponse getRoomDeviceSummary(Long roomId) {
     long totalDevices = deviceRepository.countByRoomId(roomId);
     long onDevices = deviceRepository.countByRoomIdAndStatus(roomId, "ON");
     long offDevices = deviceRepository.countByRoomIdAndStatus(roomId, "OFF");
+
     double activePower = calculateActiveRoomPower(roomId);
+
+    double activeEnergy = activePower / 1000;
+    double estimatedCost = activeEnergy * 10;
 
     return new RoomDeviceSummaryResponse(
             roomId,
             totalDevices,
             onDevices,
             offDevices,
-            activePower
+            activePower,
+            activeEnergy,
+            estimatedCost
     );
 }
 public CampusDeviceSummaryResponse getCampusDeviceSummary() {

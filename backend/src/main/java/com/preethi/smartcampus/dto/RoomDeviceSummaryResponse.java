@@ -11,13 +11,17 @@ public RoomDeviceSummaryResponse(
         long totalDevices,
         long onDevices,
         long offDevices,
-        double activePower) {
+        double activePower,
+        double activeEnergy,
+        double estimatedCost) {
 
     this.roomId = roomId;
     this.totalDevices = totalDevices;
     this.onDevices = onDevices;
     this.offDevices = offDevices;
     this.activePower = activePower;
+    this.activeEnergy = activeEnergy;
+    this.estimatedCost = estimatedCost;
 }
 public Long getRoomId() {
     return roomId;
@@ -38,4 +42,14 @@ public long getOffDevices() {
 public double getActivePower() {
     return activePower;
 }
+private double activeEnergy;
+private double estimatedCost;
+public double getActiveEnergy() {
+    return activeEnergy;
 }
+
+public double getEstimatedCost() {
+    return estimatedCost;
+}
+}
+
