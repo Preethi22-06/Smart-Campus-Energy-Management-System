@@ -296,6 +296,7 @@ public CampusDeviceSummaryResponse getCampusDeviceSummary() {
     long totalDevices = deviceRepository.count();
     long onDevices = deviceRepository.countByStatus("ON");
     long offDevices = deviceRepository.countByStatus("OFF");
+
     double activePower = 0;
 
     List<Device> devices = deviceRepository.findByStatus("ON");
@@ -304,13 +305,19 @@ public CampusDeviceSummaryResponse getCampusDeviceSummary() {
         activePower += device.getPowerRating();
     }
 
+    double activeEnergy = activePower / 1000;
+    double estimatedCost = activeEnergy * 10;
+
     return new CampusDeviceSummaryResponse(
             totalDevices,
             onDevices,
             offDevices,
-            activePower
+            activePower,
+            activeEnergy,
+            estimatedCost
     );
 }
+
 public double calculateActiveEnergyConsumption(Long id, double hours) {
 
     Device device = deviceRepository.findById(id).orElse(null);
