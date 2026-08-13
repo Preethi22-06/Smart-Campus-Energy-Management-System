@@ -7,6 +7,7 @@ import com.preethi.smartcampus.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.preethi.smartcampus.dto.HighestPowerRoomResponse;
+import com.preethi.smartcampus.dto.CampusAlertSummaryResponse;
 
 import java.util.List;
 
@@ -221,4 +222,9 @@ public Device getHighestPowerActiveDevice() {
 public HighestPowerRoomResponse getHighestPowerRoom() {
     return deviceService.getHighestPowerRoom();
 }
+@GetMapping("/alert-summary")
+public CampusAlertSummaryResponse getCampusAlertSummary() {
+    return deviceService.getCampusAlertSummary();
+}
+
 }

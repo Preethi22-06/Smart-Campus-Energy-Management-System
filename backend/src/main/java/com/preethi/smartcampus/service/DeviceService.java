@@ -7,7 +7,7 @@ import com.preethi.smartcampus.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.preethi.smartcampus.dto.HighestPowerRoomResponse;
-
+import com.preethi.smartcampus.dto.CampusAlertSummaryResponse;
 
 import java.util.List;
 
@@ -404,6 +404,40 @@ public Device getHighestPowerActiveDevice() {
     return new HighestPowerRoomResponse(
             highestRoomId,
             highestPower
+    );
+}
+public CampusAlertSummaryResponse getCampusAlertSummary() {
+
+    long totalDevices = deviceRepository.count();
+    long onDevices = deviceRepository.countByStatus("ON");
+    long offDevices = deviceRepository.countByStatus("OFF");
+
+    double activePower = 0;
+
+    List<Device> devices = deviceRepository.findByStatus("ON");
+
+    for (Device device : devices) {
+        activePower += device.getPowerRating();
+    }
+
+    boolean alert = onDevices > 0;
+
+    String message;
+
+    if (alert) {
+        message = "Attention required: " + onDevices
+                + " device(s) are currently ON.";
+    } else {
+        message = "No action required: All devices are OFF.";
+    }
+
+    return new CampusAlertSummaryResponse(
+            totalDevices,
+            onDevices,
+            offDevices,
+            activePower,
+            alert,
+            message
     );
 }
 }
