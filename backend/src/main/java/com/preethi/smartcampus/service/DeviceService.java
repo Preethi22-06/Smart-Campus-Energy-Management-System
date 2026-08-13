@@ -6,7 +6,7 @@ import com.preethi.smartcampus.entity.Device;
 import com.preethi.smartcampus.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.preethi.smartcampus.dto.HighestPowerRoomResponse;
 
 
 import java.util.List;
@@ -370,5 +370,40 @@ public Device getHighestPowerActiveDevice() {
     }
 
     return highest;
+}
+ public HighestPowerRoomResponse getHighestPowerRoom() {
+
+    List<Device> devices = deviceRepository.findAll();
+
+    if (devices.isEmpty()) {
+        return null;
+    }
+
+    Long highestRoomId = null;
+    double highestPower = 0;
+
+    for (Device device : devices) {
+
+        if (device.getRoom() != null) {
+
+            Long roomId = device.getRoom().getId();
+
+            double roomPower = calculateActiveRoomPower(roomId);
+
+            if (roomPower > highestPower) {
+                highestPower = roomPower;
+                highestRoomId = roomId;
+            }
+        }
+    }
+
+    if (highestRoomId == null) {
+        return null;
+    }
+
+    return new HighestPowerRoomResponse(
+            highestRoomId,
+            highestPower
+    );
 }
 }

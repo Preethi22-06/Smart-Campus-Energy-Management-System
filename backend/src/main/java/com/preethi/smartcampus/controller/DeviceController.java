@@ -6,7 +6,7 @@ import com.preethi.smartcampus.entity.Device;
 import com.preethi.smartcampus.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import com.preethi.smartcampus.dto.HighestPowerRoomResponse;
 
 import java.util.List;
 
@@ -216,5 +216,9 @@ public double calculateActiveRoomCost(
 @GetMapping("/highest-power/active")
 public Device getHighestPowerActiveDevice() {
     return deviceService.getHighestPowerActiveDevice();
+}
+@GetMapping("/highest-power/room")
+public HighestPowerRoomResponse getHighestPowerRoom() {
+    return deviceService.getHighestPowerRoom();
 }
 }
