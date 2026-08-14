@@ -252,5 +252,11 @@ public List<Device> getHighPowerDevicesByRoom(
 
     return deviceService.getHighPowerDevicesByRoom(roomId, threshold);
 }
+@GetMapping("/active-high-power")
+public List<Device> getActiveHighPowerDevices(
+        @RequestParam double threshold) {
+
+    return deviceService.getActiveHighPowerDevices(threshold);
+}
 
 }

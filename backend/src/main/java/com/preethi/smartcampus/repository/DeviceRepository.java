@@ -20,5 +20,9 @@ List<Device> findByRoomIdAndPowerRatingGreaterThan(
         Long roomId,
         double powerRating
 );
+List<Device> findByStatusAndPowerRatingGreaterThan(
+        String status,
+        double powerRating
+);
 
 }

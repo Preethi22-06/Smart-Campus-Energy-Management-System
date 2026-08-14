@@ -492,4 +492,11 @@ public List<Device> getHighPowerDevicesByRoom(Long roomId, double threshold) {
             threshold
     );
 }
+public List<Device> getActiveHighPowerDevices(double threshold) {
+    return deviceRepository.findByStatusAndPowerRatingGreaterThan(
+            "ON",
+            threshold
+    );
+}
+
 }
