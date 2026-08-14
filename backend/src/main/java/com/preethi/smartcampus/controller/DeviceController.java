@@ -12,6 +12,8 @@ import com.preethi.smartcampus.dto.ActivePowerResponse;
 import com.preethi.smartcampus.dto.RoomActivePowerResponse;
 import com.preethi.smartcampus.dto.CampusStatisticsResponse;
 import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
+import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
+
 
 import java.util.List;
 
@@ -264,6 +266,10 @@ public RoomEnergyEfficiencyResponse getRoomEnergyEfficiency(
         @PathVariable Long roomId) {
 
     return deviceService.getRoomEnergyEfficiency(roomId);
+}
+@GetMapping("/energy-efficiency")
+public CampusEnergyEfficiencyResponse getCampusEnergyEfficiency() {
+    return deviceService.getCampusEnergyEfficiency();
 }
 
 }

@@ -12,6 +12,8 @@ import com.preethi.smartcampus.dto.ActivePowerResponse;
 import com.preethi.smartcampus.dto.RoomActivePowerResponse;
 import com.preethi.smartcampus.dto.CampusStatisticsResponse;
 import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
+import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
+
 
 import java.util.List;
 
@@ -512,4 +514,24 @@ public RoomEnergyEfficiencyResponse getRoomEnergyEfficiency(Long roomId) {
             activePower
     );
 }
+public CampusEnergyEfficiencyResponse getCampusEnergyEfficiency() {
+
+    long totalDevices = deviceRepository.count();
+    long activeDevices = deviceRepository.countByStatus("ON");
+
+    double activePower = 0;
+
+    List<Device> devices = deviceRepository.findByStatus("ON");
+
+    for (Device device : devices) {
+        activePower += device.getPowerRating();
+    }
+
+    return new CampusEnergyEfficiencyResponse(
+            totalDevices,
+            activeDevices,
+            activePower
+    );
+}
+
 }
