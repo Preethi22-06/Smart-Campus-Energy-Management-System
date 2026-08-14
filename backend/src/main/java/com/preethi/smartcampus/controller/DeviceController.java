@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.preethi.smartcampus.dto.HighestPowerRoomResponse;
 import com.preethi.smartcampus.dto.CampusAlertSummaryResponse;
 import com.preethi.smartcampus.dto.ActivePowerResponse;
+import com.preethi.smartcampus.dto.RoomActivePowerResponse;
 
 import java.util.List;
 
@@ -230,6 +231,10 @@ public CampusAlertSummaryResponse getCampusAlertSummary() {
 @GetMapping("/active-power")
 public ActivePowerResponse getActivePower() {
     return deviceService.getActivePower();
+}
+@GetMapping("/room/{roomId}/active-power")
+public RoomActivePowerResponse getRoomActivePower(@PathVariable Long roomId) {
+    return deviceService.getRoomActivePower(roomId);
 }
 
 }

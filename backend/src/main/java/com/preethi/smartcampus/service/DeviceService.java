@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.preethi.smartcampus.dto.HighestPowerRoomResponse;
 import com.preethi.smartcampus.dto.CampusAlertSummaryResponse;
 import com.preethi.smartcampus.dto.ActivePowerResponse;
+import com.preethi.smartcampus.dto.RoomActivePowerResponse;
 
 import java.util.List;
 
@@ -452,5 +453,14 @@ public ActivePowerResponse getActivePower() {
     }
 
     return new ActivePowerResponse(activePower);
+}
+public RoomActivePowerResponse getRoomActivePower(Long roomId) {
+
+    double activePower = calculateActiveRoomPower(roomId);
+
+    return new RoomActivePowerResponse(
+            roomId,
+            activePower
+    );
 }
 }
