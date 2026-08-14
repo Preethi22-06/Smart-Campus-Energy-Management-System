@@ -10,6 +10,7 @@ import com.preethi.smartcampus.dto.HighestPowerRoomResponse;
 import com.preethi.smartcampus.dto.CampusAlertSummaryResponse;
 import com.preethi.smartcampus.dto.ActivePowerResponse;
 import com.preethi.smartcampus.dto.RoomActivePowerResponse;
+import com.preethi.smartcampus.dto.CampusStatisticsResponse;
 
 import java.util.List;
 
@@ -235,6 +236,10 @@ public ActivePowerResponse getActivePower() {
 @GetMapping("/room/{roomId}/active-power")
 public RoomActivePowerResponse getRoomActivePower(@PathVariable Long roomId) {
     return deviceService.getRoomActivePower(roomId);
+}
+@GetMapping("/statistics")
+public CampusStatisticsResponse getCampusStatistics() {
+    return deviceService.getCampusStatistics();
 }
 
 }
