@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.preethi.smartcampus.dto.HighestPowerRoomResponse;
 import com.preethi.smartcampus.dto.CampusAlertSummaryResponse;
+import com.preethi.smartcampus.dto.ActivePowerResponse;
 
 import java.util.List;
 
@@ -439,5 +440,17 @@ public CampusAlertSummaryResponse getCampusAlertSummary() {
             alert,
             message
     );
+}
+public ActivePowerResponse getActivePower() {
+
+    List<Device> devices = deviceRepository.findByStatus("ON");
+
+    double activePower = 0;
+
+    for (Device device : devices) {
+        activePower += device.getPowerRating();
+    }
+
+    return new ActivePowerResponse(activePower);
 }
 }

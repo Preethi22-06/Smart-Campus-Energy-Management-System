@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.preethi.smartcampus.dto.HighestPowerRoomResponse;
 import com.preethi.smartcampus.dto.CampusAlertSummaryResponse;
+import com.preethi.smartcampus.dto.ActivePowerResponse;
 
 import java.util.List;
 
@@ -225,6 +226,10 @@ public HighestPowerRoomResponse getHighestPowerRoom() {
 @GetMapping("/alert-summary")
 public CampusAlertSummaryResponse getCampusAlertSummary() {
     return deviceService.getCampusAlertSummary();
+}
+@GetMapping("/active-power")
+public ActivePowerResponse getActivePower() {
+    return deviceService.getActivePower();
 }
 
 }
