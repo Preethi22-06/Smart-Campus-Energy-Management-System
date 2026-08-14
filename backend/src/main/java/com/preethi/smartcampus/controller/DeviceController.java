@@ -241,5 +241,16 @@ public RoomActivePowerResponse getRoomActivePower(@PathVariable Long roomId) {
 public CampusStatisticsResponse getCampusStatistics() {
     return deviceService.getCampusStatistics();
 }
+@GetMapping("/high-power")
+public List<Device> getHighPowerDevices(@RequestParam double threshold) {
+    return deviceService.getHighPowerDevices(threshold);
+}
+@GetMapping("/room/{roomId}/high-power")
+public List<Device> getHighPowerDevicesByRoom(
+        @PathVariable Long roomId,
+        @RequestParam double threshold) {
+
+    return deviceService.getHighPowerDevicesByRoom(roomId, threshold);
+}
 
 }

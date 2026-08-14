@@ -483,4 +483,13 @@ public CampusStatisticsResponse getCampusStatistics() {
             activePower
     );
 }
+public List<Device> getHighPowerDevices(double threshold) {
+    return deviceRepository.findByPowerRatingGreaterThan(threshold);
+}
+public List<Device> getHighPowerDevicesByRoom(Long roomId, double threshold) {
+    return deviceRepository.findByRoomIdAndPowerRatingGreaterThan(
+            roomId,
+            threshold
+    );
+}
 }
