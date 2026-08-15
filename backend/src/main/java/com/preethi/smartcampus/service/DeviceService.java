@@ -13,7 +13,7 @@ import com.preethi.smartcampus.dto.RoomActivePowerResponse;
 import com.preethi.smartcampus.dto.CampusStatisticsResponse;
 import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
-
+import com.preethi.smartcampus.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -42,7 +42,12 @@ public class DeviceService {
     return null;
 }
 public Device getDeviceById(Long id) {
-    return deviceRepository.findById(id).orElse(null);
+    return deviceRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Device not found with id: " + id
+                    )
+            );
 }
 public List<Device> getDevicesByRoomId(Long roomId) {
     return deviceRepository.findByRoomId(roomId);
