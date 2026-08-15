@@ -30,16 +30,18 @@ public class DeviceService {
     public Device saveDevice(Device device) {
         return deviceRepository.save(device);
     }
-    public Device updateDeviceStatus(Long id, String status) {
-    Device device = deviceRepository.findById(id).orElse(null);
-    
+public Device updateDeviceStatus(Long id, String status) {
 
-    if (device != null) {
-        device.setStatus(status);
-        return deviceRepository.save(device);
-    }
- 
-    return null;
+    Device device = deviceRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Device not found with id: " + id
+                    )
+            );
+
+    device.setStatus(status);
+
+    return deviceRepository.save(device);
 }
 public Device getDeviceById(Long id) {
     return deviceRepository.findById(id)
