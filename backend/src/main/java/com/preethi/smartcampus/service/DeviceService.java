@@ -63,14 +63,22 @@ public long countOffDevices() {
 }
 public Device updatePowerRating(Long id, double powerRating) {
 
-    Device device = deviceRepository.findById(id).orElse(null);
-
-    if (device != null) {
-        device.setPowerRating(powerRating);
-        return deviceRepository.save(device);
+    if (powerRating < 0) {
+        throw new IllegalArgumentException(
+                "Power rating cannot be negative"
+        );
     }
 
-    return null;
+    Device device = deviceRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Device not found with id: " + id
+                    )
+            );
+
+    device.setPowerRating(powerRating);
+
+    return deviceRepository.save(device);
 }
 public double calculateEnergyConsumption(Long id, double hours) {
 
