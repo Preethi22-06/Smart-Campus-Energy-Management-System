@@ -82,15 +82,28 @@ public Device updatePowerRating(Long id, double powerRating) {
 }
 public double calculateEnergyConsumption(Long id, double hours) {
 
-    Device device = deviceRepository.findById(id).orElse(null);
-
-    if (device != null) {
-        return (device.getPowerRating() * hours) / 1000;
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
     }
 
-    return 0;
+    Device device = deviceRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Device not found with id: " + id
+                    )
+            );
+
+    return (device.getPowerRating() * hours) / 1000;
 }
 public double calculateEnergyCost(Long id, double hours, double rate) {
+
+    if (rate < 0) {
+        throw new IllegalArgumentException(
+                "Rate cannot be negative"
+        );
+    }
 
     double energy = calculateEnergyConsumption(id, hours);
 
