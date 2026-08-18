@@ -13,6 +13,7 @@ import com.preethi.smartcampus.dto.RoomActivePowerResponse;
 import com.preethi.smartcampus.dto.CampusStatisticsResponse;
 import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
+import com.preethi.smartcampus.dto.EnergyResponse;
 
 
 import java.util.List;
@@ -67,11 +68,13 @@ public Device updatePowerRating(
     return deviceService.updatePowerRating(id, powerRating);
 }
 @GetMapping("/{id}/energy")
-public double calculateEnergyConsumption(
+public EnergyResponse calculateEnergyConsumption(
         @PathVariable Long id,
         @RequestParam double hours) {
 
-    return deviceService.calculateEnergyConsumption(id, hours);
+    double energy = deviceService.calculateEnergyConsumption(id, hours);
+
+    return new EnergyResponse(energy);
 }
 @GetMapping("/{id}/cost")
 public double calculateEnergyCost(
