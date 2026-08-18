@@ -14,7 +14,7 @@ import com.preethi.smartcampus.dto.CampusStatisticsResponse;
 import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.EnergyResponse;
-
+import com.preethi.smartcampus.dto.CostResponse;
 
 import java.util.List;
 
@@ -77,12 +77,14 @@ public EnergyResponse calculateEnergyConsumption(
     return new EnergyResponse(energy);
 }
 @GetMapping("/{id}/cost")
-public double calculateEnergyCost(
+public CostResponse calculateEnergyCost(
         @PathVariable Long id,
         @RequestParam double hours,
         @RequestParam double rate) {
 
-    return deviceService.calculateEnergyCost(id, hours, rate);
+    double cost = deviceService.calculateEnergyCost(id, hours, rate);
+
+    return new CostResponse(cost);
 }
 @GetMapping("/count")
 public long countAllDevices() {
