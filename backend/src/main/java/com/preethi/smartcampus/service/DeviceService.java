@@ -345,9 +345,11 @@ public CampusDeviceSummaryResponse getCampusDeviceSummary() {
         activePower += device.getPowerRating();
     }
 
-    double activeEnergy = activePower / 1000;
-    double estimatedCost = activeEnergy * 10;
+    double hours = 1;
 
+double activeEnergy = (activePower / 1000) * hours;
+
+double estimatedCost = activeEnergy * 10;
     return new CampusDeviceSummaryResponse(
             totalDevices,
             onDevices,
