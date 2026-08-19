@@ -498,7 +498,10 @@ public RoomActivePowerResponse getRoomActivePower(Long roomId) {
 public CampusStatisticsResponse getCampusStatistics() {
 
     long totalDevices = deviceRepository.count();
+
     long activeDevices = deviceRepository.countByStatus("ON");
+
+    long inactiveDevices = deviceRepository.countByStatus("OFF");
 
     double activePower = 0;
 
@@ -511,6 +514,7 @@ public CampusStatisticsResponse getCampusStatistics() {
     return new CampusStatisticsResponse(
             totalDevices,
             activeDevices,
+            inactiveDevices,
             activePower
     );
 }
