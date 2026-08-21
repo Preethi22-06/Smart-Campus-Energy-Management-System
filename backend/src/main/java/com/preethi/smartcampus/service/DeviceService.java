@@ -482,13 +482,16 @@ public CampusAlertSummaryResponse getCampusAlertSummary() {
         activePower += device.getPowerRating();
     }
 
-    boolean alert = onDevices > 0;
+    boolean alert = activePower > 500;
 
     String message;
 
     if (alert) {
-        message = "Attention required: " + onDevices
-                + " device(s) are currently ON.";
+        message = "High power consumption detected: "
+                + activePower + " W currently active.";
+    } else if (onDevices > 0) {
+        message = "Campus power usage is normal. "
+                + onDevices + " device(s) are currently ON.";
     } else {
         message = "No action required: All devices are OFF.";
     }
