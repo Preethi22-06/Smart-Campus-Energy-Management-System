@@ -14,6 +14,7 @@ import com.preethi.smartcampus.dto.CampusStatisticsResponse;
 import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
 import com.preethi.smartcampus.exception.ResourceNotFoundException;
+import com.preethi.smartcampus.dto.HighPowerDeviceSummaryResponse;
 
 import java.util.List;
 
@@ -433,7 +434,8 @@ public Device getHighestPowerActiveDevice() {
 
     return highest;
 }
- public HighestPowerRoomResponse getHighestPowerRoom() {
+
+public HighestPowerRoomResponse getHighestPowerRoom() {
 
     List<Device> devices = deviceRepository.findAll();
 
@@ -443,6 +445,7 @@ public Device getHighestPowerActiveDevice() {
 
     Long highestRoomId = null;
     double highestPower = 0;
+    long highestActiveDevices = 0;
 
     for (Device device : devices) {
 
@@ -450,11 +453,20 @@ public Device getHighestPowerActiveDevice() {
 
             Long roomId = device.getRoom().getId();
 
-            double roomPower = calculateActiveRoomPower(roomId);
+            double roomPower =
+                    calculateActiveRoomPower(roomId);
+
+            long activeDevices =
+                    deviceRepository.countByRoomIdAndStatus(
+                            roomId,
+                            "ON"
+                    );
 
             if (roomPower > highestPower) {
+
                 highestPower = roomPower;
                 highestRoomId = roomId;
+                highestActiveDevices = activeDevices;
             }
         }
     }
@@ -465,7 +477,8 @@ public Device getHighestPowerActiveDevice() {
 
     return new HighestPowerRoomResponse(
             highestRoomId,
-            highestPower
+            highestPower,
+            highestActiveDevices
     );
 }
 public CampusAlertSummaryResponse getCampusAlertSummary() {
@@ -615,6 +628,41 @@ public CampusEnergyEfficiencyResponse getCampusEnergyEfficiency() {
             activeDevices,
             activePower,
             efficiencyPercentage
+    );
+}
+public HighPowerDeviceSummaryResponse getHighPowerDeviceSummary(
+        double threshold) {
+
+    if (threshold < 0) {
+        throw new IllegalArgumentException(
+                "Threshold cannot be negative"
+        );
+    }
+
+    List<Device> devices =
+            deviceRepository.findByPowerRatingGreaterThan(threshold);
+
+    long totalHighPowerDevices = devices.size();
+
+    long activeHighPowerDevices = 0;
+
+    double activeHighPower = 0;
+
+    for (Device device : devices) {
+
+        if ("ON".equalsIgnoreCase(device.getStatus())) {
+
+            activeHighPowerDevices++;
+
+            activeHighPower += device.getPowerRating();
+        }
+    }
+
+    return new HighPowerDeviceSummaryResponse(
+            totalHighPowerDevices,
+            activeHighPowerDevices,
+            activeHighPower,
+            threshold
     );
 }
 
