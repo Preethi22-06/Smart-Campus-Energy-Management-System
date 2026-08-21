@@ -341,11 +341,22 @@ public CampusDeviceSummaryResponse getCampusDeviceSummary(
         );
     }
 
+    if (hours > 24) {
+    throw new IllegalArgumentException(
+            "Hours cannot exceed 24"
+    );
+}
+
     if (rate < 0) {
         throw new IllegalArgumentException(
                 "Rate cannot be negative"
         );
     }
+    if (rate > 100) {
+    throw new IllegalArgumentException(
+            "Rate cannot exceed 100"
+    );
+}
 
     long totalDevices = deviceRepository.count();
     long onDevices = deviceRepository.countByStatus("ON");
