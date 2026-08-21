@@ -6,13 +6,15 @@ public class RoomEnergyEfficiencyResponse {
     private long totalDevices;
     private long activeDevices;
     private double activePower;
+    private double efficiencyPercentage;
+public RoomEnergyEfficiencyResponse(
+        Long roomId,
+        long totalDevices,
+        long activeDevices,
+        double activePower,
+        double efficiencyPercentage) {
 
-    public RoomEnergyEfficiencyResponse(
-            Long roomId,
-            long totalDevices,
-            long activeDevices,
-            double activePower) {
-
+            this.efficiencyPercentage = efficiencyPercentage;
         this.roomId = roomId;
         this.totalDevices = totalDevices;
         this.activeDevices = activeDevices;
@@ -34,4 +36,7 @@ public class RoomEnergyEfficiencyResponse {
     public double getActivePower() {
         return activePower;
     }
+    public double getEfficiencyPercentage() {
+    return efficiencyPercentage;
+}
 }

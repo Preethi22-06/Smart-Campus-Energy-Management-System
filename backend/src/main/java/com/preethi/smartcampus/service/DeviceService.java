@@ -568,13 +568,24 @@ public RoomEnergyEfficiencyResponse getRoomEnergyEfficiency(Long roomId) {
 
     long totalDevices = deviceRepository.countByRoomId(roomId);
     long activeDevices = deviceRepository.countByRoomIdAndStatus(roomId, "ON");
+
     double activePower = calculateActiveRoomPower(roomId);
+
+    long offDevices = totalDevices - activeDevices;
+
+    double efficiencyPercentage = 0;
+
+    if (totalDevices > 0) {
+        efficiencyPercentage =
+                ((double) offDevices / totalDevices) * 100;
+    }
 
     return new RoomEnergyEfficiencyResponse(
             roomId,
             totalDevices,
             activeDevices,
-            activePower
+            activePower,
+            efficiencyPercentage
     );
 }
 public CampusEnergyEfficiencyResponse getCampusEnergyEfficiency() {
@@ -590,10 +601,20 @@ public CampusEnergyEfficiencyResponse getCampusEnergyEfficiency() {
         activePower += device.getPowerRating();
     }
 
+    long offDevices = totalDevices - activeDevices;
+
+    double efficiencyPercentage = 0;
+
+    if (totalDevices > 0) {
+        efficiencyPercentage =
+                ((double) offDevices / totalDevices) * 100;
+    }
+
     return new CampusEnergyEfficiencyResponse(
             totalDevices,
             activeDevices,
-            activePower
+            activePower,
+            efficiencyPercentage
     );
 }
 

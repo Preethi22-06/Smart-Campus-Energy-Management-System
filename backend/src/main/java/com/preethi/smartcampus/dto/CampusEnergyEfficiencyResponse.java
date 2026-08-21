@@ -5,15 +5,18 @@ public class CampusEnergyEfficiencyResponse {
     private long totalDevices;
     private long activeDevices;
     private double activePower;
+    private double efficiencyPercentage;
 
     public CampusEnergyEfficiencyResponse(
-            long totalDevices,
-            long activeDevices,
-            double activePower) {
+        long totalDevices,
+        long activeDevices,
+        double activePower,
+        double efficiencyPercentage) {
 
         this.totalDevices = totalDevices;
         this.activeDevices = activeDevices;
         this.activePower = activePower;
+        this.efficiencyPercentage = efficiencyPercentage;
     }
 
     public long getTotalDevices() {
@@ -27,4 +30,7 @@ public class CampusEnergyEfficiencyResponse {
     public double getActivePower() {
         return activePower;
     }
+    public double getEfficiencyPercentage() {
+    return efficiencyPercentage;
+}
 }
