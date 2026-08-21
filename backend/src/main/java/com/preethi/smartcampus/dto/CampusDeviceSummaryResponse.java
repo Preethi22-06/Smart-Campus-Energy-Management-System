@@ -11,6 +11,11 @@ public class CampusDeviceSummaryResponse {
     private double hours;
     private double rate;
 
+    private String powerUnit;
+    private String energyUnit;
+    private String currency;
+    private String energyStatus;
+
     public CampusDeviceSummaryResponse(
             long totalDevices,
             long onDevices,
@@ -29,6 +34,16 @@ public class CampusDeviceSummaryResponse {
         this.estimatedCost = estimatedCost;
         this.hours = hours;
         this.rate = rate;
+
+        this.powerUnit = "W";
+        this.energyUnit = "kWh";
+        this.currency = "INR";
+
+        if (activePower > 500) {
+            this.energyStatus = "HIGH";
+        } else {
+            this.energyStatus = "NORMAL";
+        }
     }
 
     public long getTotalDevices() {
@@ -61,5 +76,21 @@ public class CampusDeviceSummaryResponse {
 
     public double getRate() {
         return rate;
+    }
+
+    public String getPowerUnit() {
+        return powerUnit;
+    }
+
+    public String getEnergyUnit() {
+        return energyUnit;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public String getEnergyStatus() {
+        return energyStatus;
     }
 }
