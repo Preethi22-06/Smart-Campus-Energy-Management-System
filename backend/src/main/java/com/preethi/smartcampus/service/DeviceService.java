@@ -331,7 +331,21 @@ public RoomDeviceSummaryResponse getRoomDeviceSummary(Long roomId) {
             estimatedCost
     );
 }
-public CampusDeviceSummaryResponse getCampusDeviceSummary() {
+public CampusDeviceSummaryResponse getCampusDeviceSummary(
+        double hours,
+        double rate) {
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    if (rate < 0) {
+        throw new IllegalArgumentException(
+                "Rate cannot be negative"
+        );
+    }
 
     long totalDevices = deviceRepository.count();
     long onDevices = deviceRepository.countByStatus("ON");
@@ -345,19 +359,20 @@ public CampusDeviceSummaryResponse getCampusDeviceSummary() {
         activePower += device.getPowerRating();
     }
 
-    double hours = 1;
+    double activeEnergy = (activePower / 1000) * hours;
 
-double activeEnergy = (activePower / 1000) * hours;
+    double estimatedCost = activeEnergy * rate;
 
-double estimatedCost = activeEnergy * 10;
-    return new CampusDeviceSummaryResponse(
-            totalDevices,
-            onDevices,
-            offDevices,
-            activePower,
-            activeEnergy,
-            estimatedCost
-    );
+   return new CampusDeviceSummaryResponse(
+        totalDevices,
+        onDevices,
+        offDevices,
+        activePower,
+        activeEnergy,
+        estimatedCost,
+        hours,
+        rate
+);
 }
 
 public double calculateActiveEnergyConsumption(Long id, double hours) {
