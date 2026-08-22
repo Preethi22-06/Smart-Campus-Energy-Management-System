@@ -23,4 +23,8 @@ public class RoomController {
     public Room saveRoom(@RequestBody Room room) {
         return roomService.saveRoom(room);
     }
+    @GetMapping("/{id}")
+public Room getRoomById(@PathVariable Long id) {
+    return roomService.getRoomById(id);
+}
 }

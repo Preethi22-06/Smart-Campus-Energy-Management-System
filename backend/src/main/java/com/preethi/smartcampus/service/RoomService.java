@@ -41,18 +41,28 @@ public class RoomService {
                     "Room must belong to a floor"
             );
         }
+        
 
         // 3. Check floor actually exists
-        Long floorId = room.getFloor().getId();
+     Long floorId = room.getFloor().getId();
 
-        floorRepository.findById(floorId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Floor not found with id: " + floorId
-                        )
-                );
+if (floorId == null ||
+    !floorRepository.existsById(floorId)) {
 
+    throw new ResourceNotFoundException(
+            "Floor not found with id: " + floorId
+    );
+} 
         // 4. Save room
         return roomRepository.save(room);
     }
+    public Room getRoomById(Long id) {
+
+    return roomRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Room not found with id: " + id
+                    )
+            );
+}
 }
