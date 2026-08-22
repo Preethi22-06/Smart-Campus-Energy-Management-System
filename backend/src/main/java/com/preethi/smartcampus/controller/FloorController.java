@@ -21,9 +21,9 @@ public class FloorController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Floor> getFloorById(@PathVariable Long id) {
-        return floorService.getFloorById(id);
-    }
+public Floor getFloorById(@PathVariable Long id) {
+    return floorService.getFloorById(id);
+}
 
     @PostMapping
     public Floor addFloor(@RequestBody Floor floor) {

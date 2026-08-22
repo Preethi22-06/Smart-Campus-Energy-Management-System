@@ -1,12 +1,12 @@
 package com.preethi.smartcampus.service;
 
 import com.preethi.smartcampus.entity.Floor;
+import com.preethi.smartcampus.exception.ResourceNotFoundException;
 import com.preethi.smartcampus.repository.FloorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FloorService {
@@ -18,8 +18,14 @@ public class FloorService {
         return floorRepository.findAll();
     }
 
-    public Optional<Floor> getFloorById(Long id) {
-        return floorRepository.findById(id);
+    public Floor getFloorById(Long id) {
+
+        return floorRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Floor not found with id: " + id
+                        )
+                );
     }
 
     public Floor saveFloor(Floor floor) {
@@ -27,11 +33,25 @@ public class FloorService {
     }
 
     public Floor updateFloor(Long id, Floor updatedFloor) {
+
+        if (!floorRepository.existsById(id)) {
+            throw new ResourceNotFoundException(
+                    "Floor not found with id: " + id
+            );
+        }
+
         updatedFloor.setId(id);
         return floorRepository.save(updatedFloor);
     }
 
     public void deleteFloor(Long id) {
+
+        if (!floorRepository.existsById(id)) {
+            throw new ResourceNotFoundException(
+                    "Floor not found with id: " + id
+            );
+        }
+
         floorRepository.deleteById(id);
     }
 }
