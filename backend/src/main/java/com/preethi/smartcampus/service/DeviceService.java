@@ -73,6 +73,14 @@ public class DeviceService {
 }
 public Device updateDeviceStatus(Long id, String status) {
 
+    if (!status.equalsIgnoreCase("ON") &&
+        !status.equalsIgnoreCase("OFF")) {
+
+        throw new IllegalArgumentException(
+                "Device status must be ON or OFF"
+        );
+    }
+
     Device device = deviceRepository.findById(id)
             .orElseThrow(() ->
                     new ResourceNotFoundException(
@@ -80,7 +88,7 @@ public Device updateDeviceStatus(Long id, String status) {
                     )
             );
 
-    device.setStatus(status);
+    device.setStatus(status.toUpperCase());
 
     return deviceRepository.save(device);
 }
