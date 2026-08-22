@@ -29,8 +29,48 @@ public class DeviceService {
     }
 
     public Device saveDevice(Device device) {
-        return deviceRepository.save(device);
+
+    if (device.getDeviceName() == null ||
+        device.getDeviceName().trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Device name cannot be empty"
+        );
     }
+
+    if (device.getDeviceType() == null ||
+        device.getDeviceType().trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Device type cannot be empty"
+        );
+    }
+
+    if (device.getPowerRating() < 0) {
+
+        throw new IllegalArgumentException(
+                "Power rating cannot be negative"
+        );
+    }
+
+    if (device.getStatus() == null ||
+        (!device.getStatus().equalsIgnoreCase("ON") &&
+         !device.getStatus().equalsIgnoreCase("OFF"))) {
+
+        throw new IllegalArgumentException(
+                "Device status must be ON or OFF"
+        );
+    }
+
+    if (device.getRoom() == null) {
+
+        throw new IllegalArgumentException(
+                "Device must belong to a room"
+        );
+    }
+
+    return deviceRepository.save(device);
+}
 public Device updateDeviceStatus(Long id, String status) {
 
     Device device = deviceRepository.findById(id)
