@@ -82,6 +82,17 @@ private RoomRepository roomRepository;
                 "Room not found with id: " + roomId
         );
     }
+    boolean exists = deviceRepository
+        .existsByDeviceNameAndRoomId(
+                device.getDeviceName(),
+                roomId
+        );
+
+if (exists) {
+    throw new IllegalArgumentException(
+            "Device name already exists in this room"
+    );
+}
 
     return deviceRepository.save(device);
 }

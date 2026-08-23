@@ -50,7 +50,19 @@ public class RoomService {
         );
     }
 
+    boolean exists = roomRepository
+        .existsByRoomNumberAndFloorId(
+                room.getRoomNumber(),
+                floorId
+        );
+
+if (exists) {
+    throw new IllegalArgumentException(
+            "Room number already exists on this floor"
+    );
+}
     return roomRepository.save(room);
+    
 }
     public Room getRoomById(Long id) {
 

@@ -24,5 +24,5 @@ List<Device> findByStatusAndPowerRatingGreaterThan(
         String status,
         double powerRating
 );
-
+ boolean existsByDeviceNameAndRoomId(String deviceName, Long roomId);
 }
