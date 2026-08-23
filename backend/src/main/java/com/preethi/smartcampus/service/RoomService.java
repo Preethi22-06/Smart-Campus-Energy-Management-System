@@ -23,39 +23,35 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public Room saveRoom(Room room) {
+   public Room saveRoom(Room room) {
 
-        // 1. Check room number
-        if (room.getRoomNumber() == null ||
-            room.getRoomNumber().trim().isEmpty()) {
+    if (room.getRoomNumber() == null ||
+        room.getRoomNumber().trim().isEmpty()) {
 
-            throw new IllegalArgumentException(
-                    "Room number cannot be empty"
-            );
-        }
-
-        // 2. Check floor is provided
-        if (room.getFloor() == null) {
-
-            throw new IllegalArgumentException(
-                    "Room must belong to a floor"
-            );
-        }
-        
-
-        // 3. Check floor actually exists
-     Long floorId = room.getFloor().getId();
-
-if (floorId == null ||
-    !floorRepository.existsById(floorId)) {
-
-    throw new ResourceNotFoundException(
-            "Floor not found with id: " + floorId
-    );
-} 
-        // 4. Save room
-        return roomRepository.save(room);
+        throw new IllegalArgumentException(
+                "Room number cannot be empty"
+        );
     }
+
+    if (room.getFloor() == null) {
+
+        throw new IllegalArgumentException(
+                "Room must belong to a floor"
+        );
+    }
+
+    Long floorId = room.getFloor().getId();
+
+    if (floorId == null ||
+        !floorRepository.existsById(floorId)) {
+
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
+    return roomRepository.save(room);
+}
     public Room getRoomById(Long id) {
 
     return roomRepository.findById(id)
