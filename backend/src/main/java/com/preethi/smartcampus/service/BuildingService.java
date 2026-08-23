@@ -26,11 +26,26 @@ public class BuildingService {
                                 "Building not found with id: " + id
                         )
                 );
+    }  
+      public Building saveBuilding(Building building) {
+
+    if (building.getBuildingName() == null ||
+        building.getBuildingName().trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Building name cannot be empty"
+        );
     }
 
-    public Building saveBuilding(Building building) {
-        return buildingRepository.save(building);
+    if (building.getNumberOfFloors() <= 0) {
+
+        throw new IllegalArgumentException(
+                "Number of floors must be greater than 0"
+        );
     }
+
+    return buildingRepository.save(building);
+}
 
     public Building updateBuilding(
             Long id,

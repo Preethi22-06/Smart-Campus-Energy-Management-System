@@ -32,26 +32,34 @@ public class FloorService {
                 );
     }
 
-    public Floor saveFloor(Floor floor) {
+   public Floor saveFloor(Floor floor) {
 
-        if (floor.getBuilding() == null) {
-            throw new IllegalArgumentException(
-                    "Floor must belong to a building"
-            );
-        }
+    if (floor.getFloorNumber() <= 0) {
 
-        Long buildingId = floor.getBuilding().getId();
-
-        if (buildingId == null ||
-            !buildingRepository.existsById(buildingId)) {
-
-            throw new ResourceNotFoundException(
-                    "Building not found with id: " + buildingId
-            );
-        }
-
-        return floorRepository.save(floor);
+        throw new IllegalArgumentException(
+                "Floor number must be greater than 0"
+        );
     }
+
+    if (floor.getBuilding() == null) {
+
+        throw new IllegalArgumentException(
+                "Floor must belong to a building"
+        );
+    }
+
+    Long buildingId = floor.getBuilding().getId();
+
+    if (buildingId == null ||
+        !buildingRepository.existsById(buildingId)) {
+
+        throw new ResourceNotFoundException(
+                "Building not found with id: " + buildingId
+        );
+    }
+
+    return floorRepository.save(floor);
+}
  public Floor updateFloor(Long id, Floor updatedFloor) {
 
     if (!floorRepository.existsById(id)) {
