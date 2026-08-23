@@ -15,11 +15,15 @@ import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
 import com.preethi.smartcampus.exception.ResourceNotFoundException;
 import com.preethi.smartcampus.dto.HighPowerDeviceSummaryResponse;
+import com.preethi.smartcampus.repository.RoomRepository;
+
 
 import java.util.List;
 
 @Service
 public class DeviceService {
+    @Autowired
+private RoomRepository roomRepository;
 
     @Autowired
     private DeviceRepository deviceRepository;
@@ -28,7 +32,7 @@ public class DeviceService {
         return deviceRepository.findAll();
     }
 
-    public Device saveDevice(Device device) {
+   public Device saveDevice(Device device) {
 
     if (device.getDeviceName() == null ||
         device.getDeviceName().trim().isEmpty()) {
@@ -69,17 +73,19 @@ public class DeviceService {
         );
     }
 
+    Long roomId = device.getRoom().getId();
+
+    if (roomId == null ||
+        !roomRepository.existsById(roomId)) {
+
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
     return deviceRepository.save(device);
 }
 public Device updateDeviceStatus(Long id, String status) {
-
-    if (!status.equalsIgnoreCase("ON") &&
-        !status.equalsIgnoreCase("OFF")) {
-
-        throw new IllegalArgumentException(
-                "Device status must be ON or OFF"
-        );
-    }
 
     Device device = deviceRepository.findById(id)
             .orElseThrow(() ->
@@ -87,6 +93,15 @@ public Device updateDeviceStatus(Long id, String status) {
                             "Device not found with id: " + id
                     )
             );
+
+    if (status == null ||
+        (!status.equalsIgnoreCase("ON") &&
+         !status.equalsIgnoreCase("OFF"))) {
+
+        throw new IllegalArgumentException(
+                "Device status must be ON or OFF"
+        );
+    }
 
     device.setStatus(status.toUpperCase());
 

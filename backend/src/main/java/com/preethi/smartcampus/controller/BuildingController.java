@@ -1,5 +1,5 @@
 package com.preethi.smartcampus.controller;
-import java.util.Optional;
+
 import com.preethi.smartcampus.entity.Building;
 import com.preethi.smartcampus.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,9 @@ public class BuildingController {
     public List<Building> getAllBuildings() {
         return buildingService.getAllBuildings();
     }
-    @GetMapping("/{id}")
-public Optional<Building> getBuildingById(@PathVariable Long id) {
+    
+  @GetMapping("/{id}")
+public Building getBuildingById(@PathVariable Long id) {
     return buildingService.getBuildingById(id);
 }
 
