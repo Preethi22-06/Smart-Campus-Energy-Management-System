@@ -43,6 +43,13 @@ public class BuildingService {
                 "Number of floors must be greater than 0"
         );
     }
+    if (buildingRepository.existsByBuildingName(
+        building.getBuildingName())) {
+
+    throw new IllegalArgumentException(
+            "Building name already exists"
+    );
+}
 
     return buildingRepository.save(building);
 }

@@ -57,7 +57,17 @@ public class FloorService {
                 "Building not found with id: " + buildingId
         );
     }
+     boolean exists = floorRepository
+        .existsByFloorNumberAndBuildingId(
+                floor.getFloorNumber(),
+                buildingId
+        );
 
+if (exists) {
+    throw new IllegalArgumentException(
+            "Floor number already exists in this building"
+    );
+}
     return floorRepository.save(floor);
 }
  public Floor updateFloor(Long id, Floor updatedFloor) {
