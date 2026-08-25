@@ -73,4 +73,24 @@ if (exists) {
                     )
             );
 }
+public void deleteRoom(Long id) {
+
+    if (!roomRepository.existsById(id)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + id
+        );
+    }
+
+    roomRepository.deleteById(id);
+}
+public long getRoomCountByFloor(Long floorId) {
+
+    if (!floorRepository.existsById(floorId)) {
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
+    return roomRepository.countByFloorId(floorId);
+}
 }

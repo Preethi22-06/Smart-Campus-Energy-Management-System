@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface RoomRepository extends JpaRepository<Room, Long> {
  
     boolean existsByRoomNumberAndFloorId(String roomNumber, Long floorId);
+    long countByFloorId(Long floorId);
 }
