@@ -54,20 +54,33 @@ public class BuildingService {
     return buildingRepository.save(building);
 }
 
-    public Building updateBuilding(
-            Long id,
-            Building updatedBuilding) {
+ public Building updateBuilding(Long id, Building updatedBuilding) {
 
-        if (!buildingRepository.existsById(id)) {
-            throw new ResourceNotFoundException(
-                    "Building not found with id: " + id
-            );
-        }
-
-        updatedBuilding.setId(id);
-
-        return buildingRepository.save(updatedBuilding);
+    if (!buildingRepository.existsById(id)) {
+        throw new ResourceNotFoundException(
+                "Building not found with id: " + id
+        );
     }
+
+    if (updatedBuilding.getBuildingName() == null ||
+        updatedBuilding.getBuildingName().trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Building name cannot be empty"
+        );
+    }
+
+    if (updatedBuilding.getNumberOfFloors() <= 0) {
+
+        throw new IllegalArgumentException(
+                "Number of floors must be greater than 0"
+        );
+    }
+
+    updatedBuilding.setId(id);
+
+    return buildingRepository.save(updatedBuilding);
+}
 
     public void deleteBuilding(Long id) {
 

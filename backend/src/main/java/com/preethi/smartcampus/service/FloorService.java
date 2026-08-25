@@ -70,11 +70,17 @@ if (exists) {
 }
     return floorRepository.save(floor);
 }
- public Floor updateFloor(Long id, Floor updatedFloor) {
+public Floor updateFloor(Long id, Floor updatedFloor) {
 
     if (!floorRepository.existsById(id)) {
         throw new ResourceNotFoundException(
                 "Floor not found with id: " + id
+        );
+    }
+
+    if (updatedFloor.getFloorNumber() <= 0) {
+        throw new IllegalArgumentException(
+                "Floor number must be greater than 0"
         );
     }
 
