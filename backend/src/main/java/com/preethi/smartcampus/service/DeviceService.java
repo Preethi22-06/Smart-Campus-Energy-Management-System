@@ -739,5 +739,9 @@ public HighPowerDeviceSummaryResponse getHighPowerDeviceSummary(
             threshold
     );
 }
+public List<Device> getDevicesByFloorId(Long floorId) {
+
+    return deviceRepository.findByRoomFloorId(floorId);
+} 
 
 }

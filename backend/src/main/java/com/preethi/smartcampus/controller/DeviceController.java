@@ -288,5 +288,11 @@ public HighPowerDeviceSummaryResponse getHighPowerDeviceSummary(
 
     return deviceService.getHighPowerDeviceSummary(threshold);
 }
+@GetMapping("/floor/{floorId}")
+public List<Device> getDevicesByFloorId(
+        @PathVariable Long floorId) {
+
+    return deviceService.getDevicesByFloorId(floorId);
+}
 
 }

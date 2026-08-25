@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, Long> {
 List<Device> findByRoomId(Long roomId);
+List<Device> findByRoomFloorId(Long floorId);
 
 
 long countByStatus(String status);
