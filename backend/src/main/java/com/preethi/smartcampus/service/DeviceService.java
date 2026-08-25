@@ -138,11 +138,11 @@ public long countOffDevices() {
 }
 public Device updatePowerRating(Long id, double powerRating) {
 
-    if (powerRating < 0) {
-        throw new IllegalArgumentException(
-                "Power rating cannot be negative"
-        );
-    }
+    if (powerRating <= 0) {
+    throw new IllegalArgumentException(
+            "Power rating must be greater than 0"
+    );
+}
 
     Device device = deviceRepository.findById(id)
             .orElseThrow(() ->
