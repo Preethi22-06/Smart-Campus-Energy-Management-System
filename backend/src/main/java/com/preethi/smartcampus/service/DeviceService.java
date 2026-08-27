@@ -13,6 +13,7 @@ import com.preethi.smartcampus.dto.RoomActivePowerResponse;
 import com.preethi.smartcampus.dto.CampusStatisticsResponse;
 import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
+import com.preethi.smartcampus.dto.CampusFloorStatisticsResponse;
 import com.preethi.smartcampus.exception.ResourceNotFoundException;
 import com.preethi.smartcampus.dto.HighPowerDeviceSummaryResponse;
 import com.preethi.smartcampus.repository.RoomRepository;
@@ -743,5 +744,57 @@ public List<Device> getDevicesByFloorId(Long floorId) {
 
     return deviceRepository.findByRoomFloorId(floorId);
 } 
+public CampusFloorStatisticsResponse getFloorStatistics(Long floorId) {
+
+    long totalDevices =
+            deviceRepository.countByRoomFloorId(floorId);
+
+    long onDevices =
+            deviceRepository.countByRoomFloorIdAndStatus(
+                    floorId,
+                    "ON"
+            );
+
+    long offDevices =
+            deviceRepository.countByRoomFloorIdAndStatus(
+                    floorId,
+                    "OFF"
+            );
+
+    double activePower = 0;
+
+    List<Device> devices =
+            deviceRepository.findByRoomFloorIdAndStatus(
+                    floorId,
+                    "ON"
+            );
+
+    for (Device device : devices) {
+        activePower += device.getPowerRating();
+    }
+
+    return new CampusFloorStatisticsResponse(
+            floorId,
+            totalDevices,
+            onDevices,
+            offDevices,
+            activePower
+    );
+    
+}
+public List<Device> getOnDevicesByFloor(Long floorId) {
+
+    return deviceRepository.findByRoomFloorIdAndStatus(
+            floorId,
+            "ON"
+    );
+}
+public List<Device> getOffDevicesByFloor(Long floorId) {
+
+    return deviceRepository.findByRoomFloorIdAndStatus(
+            floorId,
+            "OFF"
+    );
+}
 
 }

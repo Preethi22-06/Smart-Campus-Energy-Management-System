@@ -13,6 +13,7 @@ import com.preethi.smartcampus.dto.RoomActivePowerResponse;
 import com.preethi.smartcampus.dto.CampusStatisticsResponse;
 import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
+import com.preethi.smartcampus.dto.CampusFloorStatisticsResponse;
 import com.preethi.smartcampus.dto.EnergyResponse;
 import com.preethi.smartcampus.dto.HighPowerDeviceSummaryResponse;
 import com.preethi.smartcampus.dto.CostResponse;
@@ -294,5 +295,22 @@ public List<Device> getDevicesByFloorId(
 
     return deviceService.getDevicesByFloorId(floorId);
 }
+@GetMapping("/floor/{floorId}/statistics")
+public CampusFloorStatisticsResponse getFloorStatistics(
+        @PathVariable Long floorId) {
 
+    return deviceService.getFloorStatistics(floorId);
+}
+@GetMapping("/floor/{floorId}/on")
+public List<Device> getOnDevicesByFloor(
+        @PathVariable Long floorId) {
+
+    return deviceService.getOnDevicesByFloor(floorId);
+}
+@GetMapping("/floor/{floorId}/off")
+public List<Device> getOffDevicesByFloor(
+        @PathVariable Long floorId) {
+
+    return deviceService.getOffDevicesByFloor(floorId);
+}
 }
