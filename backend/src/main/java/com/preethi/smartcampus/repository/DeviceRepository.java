@@ -67,5 +67,8 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
             Long floorId,
             String status
     );
-    
+    List<Device> findByRoomFloorIdAndPowerRatingGreaterThan(
+        Long floorId,
+        double powerRating
+);
 }

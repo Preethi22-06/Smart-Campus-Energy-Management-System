@@ -4,6 +4,8 @@ import com.preethi.smartcampus.dto.RoomAlertResponse;
 import com.preethi.smartcampus.dto.RoomDeviceSummaryResponse;
 import com.preethi.smartcampus.entity.Device;
 import com.preethi.smartcampus.repository.DeviceRepository;
+import com.preethi.smartcampus.repository.FloorRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.preethi.smartcampus.dto.HighestPowerRoomResponse;
@@ -28,6 +30,9 @@ private RoomRepository roomRepository;
 
     @Autowired
     private DeviceRepository deviceRepository;
+    
+    @Autowired
+private FloorRepository floorRepository;
 
     public List<Device> getAllDevices() {
         return deviceRepository.findAll();
@@ -645,6 +650,28 @@ public List<Device> getHighPowerDevicesByRoom(Long roomId, double threshold) {
             roomId,
             threshold
     );
+    
+}
+public List<Device> getHighPowerDevicesByFloor(
+        Long floorId,
+        double threshold) {
+
+    if (!floorRepository.existsById(floorId)) {
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
+    if (threshold <= 0) {
+        throw new IllegalArgumentException(
+                "Power threshold must be greater than 0"
+        );
+    }
+
+    return deviceRepository.findByRoomFloorIdAndPowerRatingGreaterThan(
+            floorId,
+            threshold
+    );
 }
 public List<Device> getActiveHighPowerDevices(double threshold) {
     return deviceRepository.findByStatusAndPowerRatingGreaterThan(
@@ -833,4 +860,7 @@ public double getTotalPowerByFloor(Long floorId) {
 
     return totalPower;
 }
+
+
+
 }

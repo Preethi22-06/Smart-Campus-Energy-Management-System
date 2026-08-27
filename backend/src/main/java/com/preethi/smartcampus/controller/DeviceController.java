@@ -331,4 +331,14 @@ public double getTotalPowerByFloor(
 
     return deviceService.getTotalPowerByFloor(floorId);
 }
+@GetMapping("/floor/{floorId}/high-power")
+public List<Device> getHighPowerDevicesByFloor(
+        @PathVariable Long floorId,
+        @RequestParam double threshold) {
+
+    return deviceService.getHighPowerDevicesByFloor(
+            floorId,
+            threshold
+    );
+}
 }
