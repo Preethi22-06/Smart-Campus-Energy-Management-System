@@ -70,7 +70,9 @@ if (exists) {
 }
     return floorRepository.save(floor);
 }
-public Floor updateFloor(Long id, Floor updatedFloor) {
+public Floor updateFloor(
+        Long id,
+        Floor updatedFloor) {
 
     if (!floorRepository.existsById(id)) {
         throw new ResourceNotFoundException(
@@ -90,7 +92,8 @@ public Floor updateFloor(Long id, Floor updatedFloor) {
         );
     }
 
-    Long buildingId = updatedFloor.getBuilding().getId();
+    Long buildingId =
+            updatedFloor.getBuilding().getId();
 
     if (buildingId == null ||
         !buildingRepository.existsById(buildingId)) {
