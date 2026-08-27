@@ -54,7 +54,9 @@ public class BuildingService {
     return buildingRepository.save(building);
 }
 
- public Building updateBuilding(Long id, Building updatedBuilding) {
+ public Building updateBuilding(
+        Long id,
+        Building updatedBuilding) {
 
     if (!buildingRepository.existsById(id)) {
         throw new ResourceNotFoundException(
