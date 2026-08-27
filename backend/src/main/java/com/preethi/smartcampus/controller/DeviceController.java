@@ -313,4 +313,22 @@ public List<Device> getOffDevicesByFloor(
 
     return deviceService.getOffDevicesByFloor(floorId);
 }
+@GetMapping("/floor/{floorId}/active-power")
+public double getActivePowerByFloor(
+        @PathVariable Long floorId) {
+
+    return deviceService.getActivePowerByFloor(floorId);
+}
+@GetMapping("/high-power/on")
+public List<Device> getHighPowerOnDevices(
+        @RequestParam double threshold) {
+
+    return deviceService.getHighPowerOnDevices(threshold);
+}
+@GetMapping("/floor/{floorId}/total-power")
+public double getTotalPowerByFloor(
+        @PathVariable Long floorId) {
+
+    return deviceService.getTotalPowerByFloor(floorId);
+}
 }

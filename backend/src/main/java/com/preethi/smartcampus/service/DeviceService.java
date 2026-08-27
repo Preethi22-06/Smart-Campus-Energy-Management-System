@@ -796,5 +796,41 @@ public List<Device> getOffDevicesByFloor(Long floorId) {
             "OFF"
     );
 }
+public double getActivePowerByFloor(Long floorId) {
 
+    List<Device> devices =
+            deviceRepository.findByRoomFloorIdAndStatus(
+                    floorId,
+                    "ON"
+            );
+
+    double activePower = 0;
+
+    for (Device device : devices) {
+        activePower += device.getPowerRating();
+    }
+
+    return activePower;
+}
+public List<Device> getHighPowerOnDevices(double threshold) {
+
+    return deviceRepository
+            .findByStatusAndPowerRatingGreaterThan(
+                    "ON",
+                    threshold
+            );
+}
+public double getTotalPowerByFloor(Long floorId) {
+
+    List<Device> devices =
+            deviceRepository.findByRoomFloorId(floorId);
+
+    double totalPower = 0;
+
+    for (Device device : devices) {
+        totalPower += device.getPowerRating();
+    }
+
+    return totalPower;
+}
 }

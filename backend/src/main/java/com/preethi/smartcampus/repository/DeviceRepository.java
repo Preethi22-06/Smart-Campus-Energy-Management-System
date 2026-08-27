@@ -67,4 +67,5 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
             Long floorId,
             String status
     );
+    
 }
