@@ -53,6 +53,12 @@ public List<Device> searchDevices(
 
     return deviceService.searchDevicesByName(name);
 }
+@GetMapping("/type")
+public List<Device> getDevicesByType(
+        @RequestParam String type) {
+
+    return deviceService.getDevicesByType(type);
+}
 @GetMapping("/{id}")
 public Device getDeviceById(@PathVariable Long id) {
     return deviceService.getDeviceById(id);

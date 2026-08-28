@@ -973,5 +973,20 @@ public List<Device> searchDevicesByName(String deviceName) {
                     deviceName.trim()
             );
 }
+public List<Device> getDevicesByType(String deviceType) {
+
+    if (deviceType == null ||
+        deviceType.trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Device type cannot be empty"
+        );
+    }
+
+    return deviceRepository
+            .findByDeviceTypeIgnoreCase(
+                    deviceType.trim()
+            );
+}
 
 }
