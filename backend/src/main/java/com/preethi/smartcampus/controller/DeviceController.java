@@ -341,4 +341,11 @@ public List<Device> getHighPowerDevicesByFloor(
             threshold
     );
 }
+@PutMapping("/{id}")
+public Device updateDevice(
+        @PathVariable Long id,
+        @RequestBody Device device) {
+
+    return deviceService.updateDevice(id, device);
+}
 }

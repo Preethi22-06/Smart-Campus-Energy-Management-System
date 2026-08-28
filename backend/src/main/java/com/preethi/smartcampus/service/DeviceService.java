@@ -860,7 +860,86 @@ public double getTotalPowerByFloor(Long floorId) {
 
     return totalPower;
 }
+public Device updateDevice(
+        Long id,
+        Device updatedDevice) {
 
+    Device existingDevice = deviceRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Device not found with id: " + id
+                    )
+            );
+
+    if (updatedDevice.getDeviceName() == null ||
+        updatedDevice.getDeviceName().trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Device name cannot be empty"
+        );
+    }
+
+    if (updatedDevice.getDeviceType() == null ||
+        updatedDevice.getDeviceType().trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Device type cannot be empty"
+        );
+    }
+
+    if (updatedDevice.getPowerRating() < 0) {
+        throw new IllegalArgumentException(
+                "Power rating cannot be negative"
+        );
+    }
+
+    if (updatedDevice.getStatus() == null ||
+        (!updatedDevice.getStatus().equalsIgnoreCase("ON") &&
+         !updatedDevice.getStatus().equalsIgnoreCase("OFF"))) {
+
+        throw new IllegalArgumentException(
+                "Device status must be ON or OFF"
+        );
+    }
+
+    if (updatedDevice.getRoom() == null) {
+        throw new IllegalArgumentException(
+                "Device must belong to a room"
+        );
+    }
+
+    Long roomId = updatedDevice.getRoom().getId();
+
+    if (roomId == null ||
+        !roomRepository.existsById(roomId)) {
+
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
+    existingDevice.setDeviceName(
+            updatedDevice.getDeviceName()
+    );
+
+    existingDevice.setDeviceType(
+            updatedDevice.getDeviceType()
+    );
+
+    existingDevice.setPowerRating(
+            updatedDevice.getPowerRating()
+    );
+
+    existingDevice.setStatus(
+            updatedDevice.getStatus().toUpperCase()
+    );
+
+    existingDevice.setRoom(
+            updatedDevice.getRoom()
+    );
+
+    return deviceRepository.save(existingDevice);
+}
 
 
 }
