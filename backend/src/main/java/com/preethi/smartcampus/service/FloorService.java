@@ -32,17 +32,21 @@ public class FloorService {
                 );
     }
 
-   public Floor saveFloor(Floor floor) {
+  public Floor saveFloor(Floor floor) {
+
+    if (floor == null) {
+        throw new IllegalArgumentException(
+                "Floor details cannot be empty"
+        );
+    }
 
     if (floor.getFloorNumber() <= 0) {
-
         throw new IllegalArgumentException(
                 "Floor number must be greater than 0"
         );
     }
 
     if (floor.getBuilding() == null) {
-
         throw new IllegalArgumentException(
                 "Floor must belong to a building"
         );
@@ -57,17 +61,7 @@ public class FloorService {
                 "Building not found with id: " + buildingId
         );
     }
-     boolean exists = floorRepository
-        .existsByFloorNumberAndBuildingId(
-                floor.getFloorNumber(),
-                buildingId
-        );
 
-if (exists) {
-    throw new IllegalArgumentException(
-            "Floor number already exists in this building"
-    );
-}
     return floorRepository.save(floor);
 }
 public Floor updateFloor(
