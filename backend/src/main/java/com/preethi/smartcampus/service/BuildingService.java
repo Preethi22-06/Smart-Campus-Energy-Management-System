@@ -27,7 +27,13 @@ public class BuildingService {
                         )
                 );
     }  
-      public Building saveBuilding(Building building) {
+     public Building saveBuilding(Building building) {
+
+    if (building == null) {
+        throw new IllegalArgumentException(
+                "Building details cannot be empty"
+        );
+    }
 
     if (building.getBuildingName() == null ||
         building.getBuildingName().trim().isEmpty()) {
@@ -43,13 +49,6 @@ public class BuildingService {
                 "Number of floors must be greater than 0"
         );
     }
-    if (buildingRepository.existsByBuildingName(
-        building.getBuildingName())) {
-
-    throw new IllegalArgumentException(
-            "Building name already exists"
-    );
-}
 
     return buildingRepository.save(building);
 }
