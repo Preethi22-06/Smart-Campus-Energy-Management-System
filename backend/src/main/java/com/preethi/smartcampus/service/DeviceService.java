@@ -63,15 +63,6 @@ private FloorRepository floorRepository;
         );
     }
 
-    if (device.getStatus() == null ||
-        (!device.getStatus().equalsIgnoreCase("ON") &&
-         !device.getStatus().equalsIgnoreCase("OFF"))) {
-
-        throw new IllegalArgumentException(
-                "Device status must be ON or OFF"
-        );
-    }
-
     if (device.getRoom() == null) {
 
         throw new IllegalArgumentException(
@@ -88,17 +79,19 @@ private FloorRepository floorRepository;
                 "Room not found with id: " + roomId
         );
     }
-    boolean exists = deviceRepository
-        .existsByDeviceNameAndRoomId(
-                device.getDeviceName(),
-                roomId
-        );
 
-if (exists) {
-    throw new IllegalArgumentException(
-            "Device name already exists in this room"
-    );
-}
+    boolean exists =
+            deviceRepository.existsByDeviceNameAndRoomId(
+                    device.getDeviceName(),
+                    roomId
+            );
+
+    if (exists) {
+
+        throw new IllegalArgumentException(
+                "Device with this name already exists in this room"
+        );
+    }
 
     return deviceRepository.save(device);
 }
