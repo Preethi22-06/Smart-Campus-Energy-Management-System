@@ -25,6 +25,12 @@ public class RoomService {
 
    public Room saveRoom(Room room) {
 
+    if (room == null) {
+        throw new IllegalArgumentException(
+                "Room details cannot be empty"
+        );
+    }
+
     if (room.getRoomNumber() == null ||
         room.getRoomNumber().trim().isEmpty()) {
 
@@ -50,19 +56,20 @@ public class RoomService {
         );
     }
 
-    boolean exists = roomRepository
-        .existsByRoomNumberAndFloorId(
-                room.getRoomNumber(),
-                floorId
-        );
+    boolean exists =
+            roomRepository.existsByRoomNumberAndFloorId(
+                    room.getRoomNumber(),
+                    floorId
+            );
 
-if (exists) {
-    throw new IllegalArgumentException(
-            "Room number already exists on this floor"
-    );
-}
+    if (exists) {
+
+        throw new IllegalArgumentException(
+                "Room number already exists on this floor"
+        );
+    }
+
     return roomRepository.save(room);
-    
 }
     public Room getRoomById(Long id) {
 
