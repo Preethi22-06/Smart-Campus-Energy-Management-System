@@ -113,6 +113,11 @@ public Device updateDeviceStatus(Long id, String status) {
                             "Device not found with id: " + id
                     )
             );
+            if (device.getStatus().equalsIgnoreCase(status)) {
+    throw new IllegalArgumentException(
+            "Device is already " + status.toUpperCase()
+    );
+}
 
     if (status == null ||
         (!status.equalsIgnoreCase("ON") &&
