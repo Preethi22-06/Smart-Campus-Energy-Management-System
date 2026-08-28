@@ -958,5 +958,20 @@ public void deleteDevice(Long id) {
 
     deviceRepository.deleteById(id);
 }
+public List<Device> searchDevicesByName(String deviceName) {
+
+    if (deviceName == null ||
+        deviceName.trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Device name cannot be empty"
+        );
+    }
+
+    return deviceRepository
+            .findByDeviceNameContainingIgnoreCase(
+                    deviceName.trim()
+            );
+}
 
 }

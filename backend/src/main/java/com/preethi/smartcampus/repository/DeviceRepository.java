@@ -14,6 +14,7 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
 
     // Devices by Floor
     List<Device> findByRoomFloorId(Long floorId);
+    List<Device> findByDeviceNameContainingIgnoreCase(String deviceName);
 
     // Devices by Floor and Status
     List<Device> findByRoomFloorIdAndStatus(

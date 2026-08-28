@@ -47,6 +47,12 @@ public Device turnOnDevice(@PathVariable Long id) {
 public Device turnOffDevice(@PathVariable Long id) {
     return deviceService.updateDeviceStatus(id, "OFF");
 }
+@GetMapping("/search")
+public List<Device> searchDevices(
+        @RequestParam String name) {
+
+    return deviceService.searchDevicesByName(name);
+}
 @GetMapping("/{id}")
 public Device getDeviceById(@PathVariable Long id) {
     return deviceService.getDeviceById(id);
@@ -352,4 +358,5 @@ public Device updateDevice(
 public void deleteDevice(@PathVariable Long id) {
     deviceService.deleteDevice(id);
 }
+
 }
