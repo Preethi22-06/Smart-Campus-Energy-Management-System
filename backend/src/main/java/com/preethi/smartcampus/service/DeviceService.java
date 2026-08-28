@@ -55,6 +55,16 @@ private FloorRepository floorRepository;
                 "Device type cannot be empty"
         );
     }
+    if (device.getStatus() == null ||
+    (!device.getStatus().equalsIgnoreCase("ON") &&
+     !device.getStatus().equalsIgnoreCase("OFF"))) {
+
+    throw new IllegalArgumentException(
+            "Device status must be ON or OFF"
+    );
+}
+
+device.setStatus(device.getStatus().toUpperCase());
 
     if (device.getPowerRating() < 0) {
 
