@@ -73,6 +73,56 @@ if (exists) {
                     )
             );
 }
+public Room updateRoom(
+        Long id,
+        Room updatedRoom) {
+
+    if (!roomRepository.existsById(id)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + id
+        );
+    }
+
+    if (updatedRoom.getRoomNumber() == null ||
+        updatedRoom.getRoomNumber().trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Room number cannot be empty"
+        );
+    }
+
+    if (updatedRoom.getFloor() == null) {
+        throw new IllegalArgumentException(
+                "Room must belong to a floor"
+        );
+    }
+
+    Long floorId = updatedRoom.getFloor().getId();
+
+    if (floorId == null ||
+        !floorRepository.existsById(floorId)) {
+
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
+    boolean exists =
+            roomRepository.existsByRoomNumberAndFloorId(
+                    updatedRoom.getRoomNumber(),
+                    floorId
+            );
+
+    if (exists) {
+        throw new IllegalArgumentException(
+                "Room number already exists on this floor"
+        );
+    }
+
+    updatedRoom.setId(id);
+
+    return roomRepository.save(updatedRoom);
+}
 public void deleteRoom(Long id) {
 
     if (!roomRepository.existsById(id)) {

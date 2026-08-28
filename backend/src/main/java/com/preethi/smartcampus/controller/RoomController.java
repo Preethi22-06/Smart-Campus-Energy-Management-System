@@ -40,4 +40,11 @@ public long getRoomCountByFloor(@PathVariable Long floorId) {
 
     return roomService.getRoomCountByFloor(floorId);
 }
+@PutMapping("/{id}")
+public Room updateRoom(
+        @PathVariable Long id,
+        @RequestBody Room room) {
+
+    return roomService.updateRoom(id, room);
+}
 }
