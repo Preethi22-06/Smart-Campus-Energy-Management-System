@@ -83,14 +83,14 @@ public class BuildingService {
     return buildingRepository.save(updatedBuilding);
 }
 
-    public void deleteBuilding(Long id) {
+   public void deleteBuilding(Long id) {
 
-        if (!buildingRepository.existsById(id)) {
-            throw new ResourceNotFoundException(
-                    "Building not found with id: " + id
-            );
-        }
-
-        buildingRepository.deleteById(id);
+    if (!buildingRepository.existsById(id)) {
+        throw new ResourceNotFoundException(
+                "Building not found with id: " + id
+        );
     }
+
+    buildingRepository.deleteById(id);
+}
 }

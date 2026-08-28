@@ -943,6 +943,15 @@ public Device updateDevice(
 
     return deviceRepository.save(existingDevice);
 }
+public void deleteDevice(Long id) {
 
+    if (!deviceRepository.existsById(id)) {
+        throw new ResourceNotFoundException(
+                "Device not found with id: " + id
+        );
+    }
+
+    deviceRepository.deleteById(id);
+}
 
 }

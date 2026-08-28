@@ -140,6 +140,7 @@ public void deleteRoom(Long id) {
 
     roomRepository.deleteById(id);
 }
+
 public long getRoomCountByFloor(Long floorId) {
 
     if (!floorRepository.existsById(floorId)) {
@@ -150,4 +151,5 @@ public long getRoomCountByFloor(Long floorId) {
 
     return roomRepository.countByFloorId(floorId);
 }
+
 }

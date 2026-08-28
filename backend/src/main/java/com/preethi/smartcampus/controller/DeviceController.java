@@ -348,4 +348,8 @@ public Device updateDevice(
 
     return deviceService.updateDevice(id, device);
 }
+@DeleteMapping("/{id}")
+public void deleteDevice(@PathVariable Long id) {
+    deviceService.deleteDevice(id);
+}
 }
