@@ -1030,5 +1030,32 @@ public long getDeviceCountByType(String deviceType) {
                     deviceType.trim()
             );
 }
+public long getDeviceCountByStatusAndType(
+        String status,
+        String deviceType) {
+
+    if (status == null ||
+        (!status.equalsIgnoreCase("ON") &&
+         !status.equalsIgnoreCase("OFF"))) {
+
+        throw new IllegalArgumentException(
+                "Device status must be ON or OFF"
+        );
+    }
+
+    if (deviceType == null ||
+        deviceType.trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Device type cannot be empty"
+        );
+    }
+
+    return deviceRepository
+            .countByStatusAndDeviceTypeIgnoreCase(
+                    status.toUpperCase(),
+                    deviceType.trim()
+            );
+}
 
 }

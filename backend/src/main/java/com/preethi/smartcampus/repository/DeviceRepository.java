@@ -17,7 +17,7 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
     List<Device> findByDeviceNameContainingIgnoreCase(String deviceName);
     List<Device> findByDeviceTypeIgnoreCase(String deviceType);
     long countByDeviceTypeIgnoreCase(String deviceType);
-    
+
     // Devices by Floor and Status
     List<Device> findByRoomFloorIdAndStatus(
             Long floorId,
@@ -75,6 +75,10 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
         double powerRating
 );
 List<Device> findByStatusAndDeviceTypeIgnoreCase(
+        String status,
+        String deviceType
+);
+   long countByStatusAndDeviceTypeIgnoreCase(
         String status,
         String deviceType
 );
