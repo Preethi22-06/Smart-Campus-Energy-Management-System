@@ -4,7 +4,11 @@ import java.util.List;
 
 import com.preethi.smartcampus.entity.Device;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+
 
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, Long> {
@@ -17,6 +21,7 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
     List<Device> findByDeviceNameContainingIgnoreCase(String deviceName);
     List<Device> findByDeviceTypeIgnoreCase(String deviceType);
     long countByDeviceTypeIgnoreCase(String deviceType);
+    
 
     // Devices by Floor and Status
     List<Device> findByRoomFloorIdAndStatus(
@@ -81,5 +86,13 @@ List<Device> findByStatusAndDeviceTypeIgnoreCase(
    long countByStatusAndDeviceTypeIgnoreCase(
         String status,
         String deviceType
+);
+@Query("""
+    SELECT COALESCE(SUM(d.powerRating), 0)
+    FROM Device d
+    WHERE LOWER(d.deviceType) = LOWER(:deviceType)
+""")
+double sumPowerRatingByDeviceTypeIgnoreCase(
+        @Param("deviceType") String deviceType
 );
 }

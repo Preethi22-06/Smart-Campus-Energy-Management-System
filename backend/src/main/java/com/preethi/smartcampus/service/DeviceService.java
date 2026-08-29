@@ -1057,5 +1057,20 @@ public long getDeviceCountByStatusAndType(
                     deviceType.trim()
             );
 }
+public double getTotalPowerByType(String deviceType) {
+
+    if (deviceType == null ||
+        deviceType.trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Device type cannot be empty"
+        );
+    }
+
+    return deviceRepository
+            .sumPowerRatingByDeviceTypeIgnoreCase(
+                    deviceType.trim()
+            );
+}
 
 }

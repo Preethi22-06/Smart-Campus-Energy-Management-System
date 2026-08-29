@@ -85,6 +85,12 @@ public long getDeviceCountByStatusAndType(
             type
     );
 } 
+@GetMapping("/power/type")
+public double getTotalPowerByType(
+        @RequestParam String type) {
+
+    return deviceService.getTotalPowerByType(type);
+}
 @GetMapping("/{id}")
 public Device getDeviceById(@PathVariable Long id) {
     return deviceService.getDeviceById(id);
