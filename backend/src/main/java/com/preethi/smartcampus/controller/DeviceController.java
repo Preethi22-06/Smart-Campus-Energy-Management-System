@@ -69,6 +69,12 @@ public List<Device> getDevicesByStatusAndType(
             type
     );
 }
+@GetMapping("/count/type")
+public long getDeviceCountByType(
+        @RequestParam String type) {
+
+    return deviceService.getDeviceCountByType(type);
+} 
 @GetMapping("/{id}")
 public Device getDeviceById(@PathVariable Long id) {
     return deviceService.getDeviceById(id);
