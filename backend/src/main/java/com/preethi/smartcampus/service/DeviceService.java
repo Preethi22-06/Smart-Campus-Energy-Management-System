@@ -988,5 +988,32 @@ public List<Device> getDevicesByType(String deviceType) {
                     deviceType.trim()
             );
 }
+public List<Device> getDevicesByStatusAndType(
+        String status,
+        String deviceType) {
+
+    if (status == null ||
+        (!status.equalsIgnoreCase("ON") &&
+         !status.equalsIgnoreCase("OFF"))) {
+
+        throw new IllegalArgumentException(
+                "Device status must be ON or OFF"
+        );
+    }
+
+    if (deviceType == null ||
+        deviceType.trim().isEmpty()) {
+
+        throw new IllegalArgumentException(
+                "Device type cannot be empty"
+        );
+    }
+
+    return deviceRepository
+            .findByStatusAndDeviceTypeIgnoreCase(
+                    status.toUpperCase(),
+                    deviceType.trim()
+            );
+}
 
 }

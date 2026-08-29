@@ -59,6 +59,16 @@ public List<Device> getDevicesByType(
 
     return deviceService.getDevicesByType(type);
 }
+@GetMapping("/filter")
+public List<Device> getDevicesByStatusAndType(
+        @RequestParam String status,
+        @RequestParam String type) {
+
+    return deviceService.getDevicesByStatusAndType(
+            status,
+            type
+    );
+}
 @GetMapping("/{id}")
 public Device getDeviceById(@PathVariable Long id) {
     return deviceService.getDeviceById(id);

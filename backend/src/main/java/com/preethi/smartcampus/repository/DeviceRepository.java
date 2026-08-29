@@ -73,4 +73,8 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
         Long floorId,
         double powerRating
 );
+List<Device> findByStatusAndDeviceTypeIgnoreCase(
+        String status,
+        String deviceType
+);
 }
