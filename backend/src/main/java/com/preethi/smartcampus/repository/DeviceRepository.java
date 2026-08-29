@@ -95,4 +95,12 @@ List<Device> findByStatusAndDeviceTypeIgnoreCase(
 double sumPowerRatingByDeviceTypeIgnoreCase(
         @Param("deviceType") String deviceType
 );
+@Query("""
+    SELECT COALESCE(SUM(d.powerRating), 0)
+    FROM Device d
+    WHERE UPPER(d.status) = UPPER(:status)
+""")
+double sumPowerRatingByStatus(
+        @Param("status") String status
+);
 }

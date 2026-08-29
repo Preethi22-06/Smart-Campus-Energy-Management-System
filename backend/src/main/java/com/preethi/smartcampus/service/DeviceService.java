@@ -1072,5 +1072,19 @@ public double getTotalPowerByType(String deviceType) {
                     deviceType.trim()
             );
 }
+public double getTotalPowerByStatus(String status) {
 
+    if (status == null ||
+        (!status.equalsIgnoreCase("ON") &&
+         !status.equalsIgnoreCase("OFF"))) {
+
+        throw new IllegalArgumentException(
+                "Device status must be ON or OFF"
+        );
+    }
+
+    return deviceRepository.sumPowerRatingByStatus(
+            status.toUpperCase()
+    );
+}
 }

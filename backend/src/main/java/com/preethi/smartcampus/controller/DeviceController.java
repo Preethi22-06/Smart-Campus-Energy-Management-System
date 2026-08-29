@@ -91,6 +91,12 @@ public double getTotalPowerByType(
 
     return deviceService.getTotalPowerByType(type);
 }
+@GetMapping("/power/status")
+public double getTotalPowerByStatus(
+        @RequestParam String status) {
+
+    return deviceService.getTotalPowerByStatus(status);
+}
 @GetMapping("/{id}")
 public Device getDeviceById(@PathVariable Long id) {
     return deviceService.getDeviceById(id);
@@ -396,5 +402,6 @@ public Device updateDevice(
 public void deleteDevice(@PathVariable Long id) {
     deviceService.deleteDevice(id);
 }
+
 
 }
