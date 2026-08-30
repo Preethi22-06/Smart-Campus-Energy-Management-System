@@ -668,12 +668,27 @@ public List<Device> getHighPowerDevices(double threshold) {
             threshold
     );
 }
-public List<Device> getHighPowerDevicesByRoom(Long roomId, double threshold) {
-    return deviceRepository.findByRoomIdAndPowerRatingGreaterThan(
-            roomId,
-            threshold
-    );
-    
+public List<Device> getHighPowerDevicesByRoom(
+        Long roomId,
+        double threshold) {
+
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
+    if (threshold < 0) {
+        throw new IllegalArgumentException(
+                "Power threshold cannot be negative"
+        );
+    }
+
+    return deviceRepository
+            .findByRoomIdAndPowerRatingGreaterThan(
+                    roomId,
+                    threshold
+            );
 }
 public List<Device> getHighPowerDevicesByFloor(
         Long floorId,
