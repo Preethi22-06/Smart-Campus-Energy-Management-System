@@ -620,6 +620,12 @@ public ActivePowerResponse getActivePower() {
 }
 public RoomActivePowerResponse getRoomActivePower(Long roomId) {
 
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
     double activePower = calculateActiveRoomPower(roomId);
 
     return new RoomActivePowerResponse(
@@ -651,7 +657,16 @@ public CampusStatisticsResponse getCampusStatistics() {
     );
 }
 public List<Device> getHighPowerDevices(double threshold) {
-    return deviceRepository.findByPowerRatingGreaterThan(threshold);
+
+    if (threshold < 0) {
+        throw new IllegalArgumentException(
+                "Power threshold cannot be negative"
+        );
+    }
+
+    return deviceRepository.findByPowerRatingGreaterThan(
+            threshold
+    );
 }
 public List<Device> getHighPowerDevicesByRoom(Long roomId, double threshold) {
     return deviceRepository.findByRoomIdAndPowerRatingGreaterThan(
