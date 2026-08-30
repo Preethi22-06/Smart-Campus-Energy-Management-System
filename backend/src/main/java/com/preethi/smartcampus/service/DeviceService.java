@@ -678,9 +678,9 @@ public List<Device> getHighPowerDevicesByRoom(
         );
     }
 
-    if (threshold < 0) {
+    if (threshold <= 0) {
         throw new IllegalArgumentException(
-                "Power threshold cannot be negative"
+                "Power threshold must be greater than 0"
         );
     }
 
