@@ -446,4 +446,16 @@ public Device getHighestPowerDeviceByFloor(
 
     return deviceService.getHighestPowerDeviceByFloor(floorId);
 }
+@GetMapping("/floor/{floorId}/energy-cost")
+public CampusDeviceSummaryResponse getFloorEnergyCost(
+        @PathVariable Long floorId,
+        @RequestParam double hours,
+        @RequestParam double rate) {
+
+    return deviceService.getFloorEnergyCost(
+            floorId,
+            hours,
+            rate
+    );
+}
 }

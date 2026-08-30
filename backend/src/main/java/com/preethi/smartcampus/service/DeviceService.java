@@ -1277,6 +1277,83 @@ public EnergyResponse getFloorEnergy(
 
     return new EnergyResponse(energy);
 }
+public CampusDeviceSummaryResponse getFloorEnergyCost(
+        Long floorId,
+        double hours,
+        double rate) {
+
+    if (floorId == null || !floorRepository.existsById(floorId)) {
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    if (hours > 24) {
+        throw new IllegalArgumentException(
+                "Hours cannot exceed 24"
+        );
+    }
+
+    if (rate < 0) {
+        throw new IllegalArgumentException(
+                "Rate cannot be negative"
+        );
+    }
+
+    if (rate > 100) {
+        throw new IllegalArgumentException(
+                "Rate cannot exceed 100"
+        );
+    }
+
+    long totalDevices =
+            deviceRepository.countByRoomFloorId(floorId);
+
+    long onDevices =
+            deviceRepository.countByRoomFloorIdAndStatus(
+                    floorId,
+                    "ON"
+            );
+
+    long offDevices =
+            deviceRepository.countByRoomFloorIdAndStatus(
+                    floorId,
+                    "OFF"
+            );
+
+    double activePower = 0;
+
+    List<Device> devices =
+            deviceRepository.findByRoomFloorIdAndStatus(
+                    floorId,
+                    "ON"
+            );
+
+    for (Device device : devices) {
+        activePower += device.getPowerRating();
+    }
+
+    double activeEnergy = (activePower * hours) / 1000;
+
+    double estimatedCost = activeEnergy * rate;
+
+    return new CampusDeviceSummaryResponse(
+            totalDevices,
+            onDevices,
+            offDevices,
+            activePower,
+            activeEnergy,
+            estimatedCost,
+            hours,
+            rate
+    );
+}
 public Device getHighestPowerDeviceByFloor(Long floorId) {
 
     if (floorId == null || !floorRepository.existsById(floorId)) {
