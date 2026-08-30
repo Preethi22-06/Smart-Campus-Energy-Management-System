@@ -694,7 +694,7 @@ public List<Device> getHighPowerDevicesByFloor(
         Long floorId,
         double threshold) {
 
-    if (!floorRepository.existsById(floorId)) {
+    if (floorId == null || !floorRepository.existsById(floorId)) {
         throw new ResourceNotFoundException(
                 "Floor not found with id: " + floorId
         );
