@@ -141,6 +141,13 @@ public Device getDeviceById(Long id) {
             );
 }
 public List<Device> getDevicesByRoomId(Long roomId) {
+
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
     return deviceRepository.findByRoomId(roomId);
 }
 public long countOnDevices() {
