@@ -243,7 +243,19 @@ public String getDeviceEnergySummary(Long id, double hours, double rate) {
     return "Device not found";
 }
 public List<Device> getDevicesByStatus(String status) {
-    return deviceRepository.findByStatus(status);
+
+    if (status == null ||
+        (!status.equalsIgnoreCase("ON") &&
+         !status.equalsIgnoreCase("OFF"))) {
+
+        throw new IllegalArgumentException(
+                "Device status must be ON or OFF"
+        );
+    }
+
+    return deviceRepository.findByStatus(
+            status.toUpperCase()
+    );
 }
 public List<Device> getDevicesByRoomAndStatus(Long roomId, String status) {
     return deviceRepository.findByRoomIdAndStatus(roomId, status);
