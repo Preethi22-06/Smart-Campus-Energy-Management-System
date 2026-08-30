@@ -458,4 +458,16 @@ public CampusDeviceSummaryResponse getFloorEnergyCost(
             rate
     );
 }
+@GetMapping("/{id}/active-energy-cost")
+public double calculateActiveEnergyCost(
+        @PathVariable Long id,
+        @RequestParam double hours,
+        @RequestParam double rate) {
+
+    return deviceService.calculateActiveEnergyCost(
+            id,
+            hours,
+            rate
+    );
+}
 }

@@ -505,6 +505,30 @@ public double calculateActiveEnergyConsumption(Long id, double hours) {
 
     return 0;
 }
+public double calculateActiveEnergyCost(
+        Long id,
+        double hours,
+        double rate) {
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    if (rate < 0) {
+        throw new IllegalArgumentException(
+                "Rate cannot be negative"
+        );
+    }
+
+    double energy = calculateActiveEnergyConsumption(
+            id,
+            hours
+    );
+
+    return energy * rate;
+}
 public double calculateActiveRoomEnergy(Long roomId, double hours) {
 
     List<Device> devices =
