@@ -849,6 +849,12 @@ public CampusFloorStatisticsResponse getFloorStatistics(Long floorId) {
 }
 public List<Device> getOnDevicesByFloor(Long floorId) {
 
+    if (floorId == null || !floorRepository.existsById(floorId)) {
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
     return deviceRepository.findByRoomFloorIdAndStatus(
             floorId,
             "ON"
