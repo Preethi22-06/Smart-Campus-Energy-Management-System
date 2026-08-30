@@ -416,5 +416,16 @@ public EnergyResponse getFloorEnergy(
             hours
     );
 }
+@GetMapping("/room/{roomId}/energy/type")
+public EnergyResponse getRoomEnergyByType(
+        @PathVariable Long roomId,
+        @RequestParam String deviceType,
+        @RequestParam double hours) {
 
+    return deviceService.getRoomEnergyByType(
+            roomId,
+            deviceType,
+            hours
+    );
+}
 }

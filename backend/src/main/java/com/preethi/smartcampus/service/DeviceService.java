@@ -1128,6 +1128,51 @@ public double getTotalPowerByType(String deviceType) {
                     deviceType.trim()
             );
 }
+public EnergyResponse getRoomEnergyByType(
+        Long roomId,
+        String deviceType,
+        double hours) {
+
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
+    if (deviceType == null || deviceType.trim().isEmpty()) {
+        throw new IllegalArgumentException(
+                "Device type cannot be empty"
+        );
+    }
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    List<Device> devices =
+            deviceRepository.findByRoomIdAndStatus(
+                    roomId,
+                    "ON"
+            );
+
+    double activePower = 0;
+
+    for (Device device : devices) {
+
+        if (device.getDeviceType() != null &&
+            device.getDeviceType()
+                    .equalsIgnoreCase(deviceType.trim())) {
+
+            activePower += device.getPowerRating();
+        }
+    }
+
+    double energy = (activePower * hours) / 1000;
+
+    return new EnergyResponse(energy);
+}
 public double getTotalPowerByStatus(String status) {
 
     if (status == null ||
