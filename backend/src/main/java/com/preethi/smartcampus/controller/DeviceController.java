@@ -440,4 +440,10 @@ public EnergyResponse getFloorEnergyByType(
             hours
     );
 }
+@GetMapping("/floor/{floorId}/highest-power")
+public Device getHighestPowerDeviceByFloor(
+        @PathVariable Long floorId) {
+
+    return deviceService.getHighestPowerDeviceByFloor(floorId);
+}
 }

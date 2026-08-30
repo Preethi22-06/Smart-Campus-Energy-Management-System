@@ -1277,4 +1277,35 @@ public EnergyResponse getFloorEnergy(
 
     return new EnergyResponse(energy);
 }
+public Device getHighestPowerDeviceByFloor(Long floorId) {
+
+    if (floorId == null || !floorRepository.existsById(floorId)) {
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
+    List<Device> devices =
+            deviceRepository.findByRoomFloorId(floorId);
+
+    if (devices.isEmpty()) {
+        throw new ResourceNotFoundException(
+                "No devices found on floor with id: " + floorId
+        );
+    }
+
+    Device highestPowerDevice = devices.get(0);
+
+    for (Device device : devices) {
+
+        if (device.getPowerRating() >
+                highestPowerDevice.getPowerRating()) {
+
+            highestPowerDevice = device;
+        }
+    }
+
+    return highestPowerDevice;
+}
+
 }
