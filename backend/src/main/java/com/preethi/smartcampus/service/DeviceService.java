@@ -13,6 +13,7 @@ import com.preethi.smartcampus.dto.CampusAlertSummaryResponse;
 import com.preethi.smartcampus.dto.ActivePowerResponse;
 import com.preethi.smartcampus.dto.RoomActivePowerResponse;
 import com.preethi.smartcampus.dto.CampusStatisticsResponse;
+import com.preethi.smartcampus.dto.EnergyResponse;
 import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.CampusFloorStatisticsResponse;
@@ -1141,5 +1142,49 @@ public double getTotalPowerByStatus(String status) {
     return deviceRepository.sumPowerRatingByStatus(
             status.toUpperCase()
     );
+}
+public EnergyResponse getRoomEnergy(
+        Long roomId,
+        double hours) {
+
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    double activePower = calculateActiveRoomPower(roomId);
+
+    double energy = (activePower * hours) / 1000;
+
+    return new EnergyResponse(energy);
+}
+public EnergyResponse getFloorEnergy(
+        Long floorId,
+        double hours) {
+
+    if (floorId == null || !floorRepository.existsById(floorId)) {
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    double activePower = getActivePowerByFloor(floorId);
+
+    double energy = (activePower * hours) / 1000;
+
+    return new EnergyResponse(energy);
 }
 }

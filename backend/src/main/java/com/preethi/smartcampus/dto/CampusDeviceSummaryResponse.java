@@ -38,11 +38,7 @@ public class CampusDeviceSummaryResponse {
         this.powerUnit = "W";
         this.energyUnit = "kWh";
         this.currency = "INR";
-        if (activePower > 500) {
-    this.energyStatus = "HIGH";
-} else {
-    this.energyStatus = "NORMAL";
-}
+       
 
         if (activePower > 500) {
             this.energyStatus = "HIGH";

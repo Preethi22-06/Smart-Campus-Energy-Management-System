@@ -97,6 +97,16 @@ public double getTotalPowerByStatus(
 
     return deviceService.getTotalPowerByStatus(status);
 }
+@GetMapping("/room/{roomId}/energy")
+public EnergyResponse getRoomEnergy(
+        @PathVariable Long roomId,
+        @RequestParam double hours) {
+
+    return deviceService.getRoomEnergy(
+            roomId,
+            hours
+    );
+}
 @GetMapping("/{id}")
 public Device getDeviceById(@PathVariable Long id) {
     return deviceService.getDeviceById(id);
@@ -178,13 +188,7 @@ public List<Device> getDevicesByRoomAndStatus(
 public String getDeviceAlert(@PathVariable Long id) {
     return deviceService.getDeviceAlert(id);
 }
-@GetMapping("/room/{roomId}/energy")
-public double calculateRoomEnergy(
-        @PathVariable Long roomId,
-        @RequestParam double hours) {
 
-    return deviceService.calculateRoomEnergy(roomId, hours);
-}
 @GetMapping("/room/{roomId}/cost")
 public double calculateRoomCost(
         @PathVariable Long roomId,
@@ -402,6 +406,15 @@ public Device updateDevice(
 public void deleteDevice(@PathVariable Long id) {
     deviceService.deleteDevice(id);
 }
+@GetMapping("/floor/{floorId}/energy")
+public EnergyResponse getFloorEnergy(
+        @PathVariable Long floorId,
+        @RequestParam double hours) {
 
+    return deviceService.getFloorEnergy(
+            floorId,
+            hours
+    );
+}
 
 }
