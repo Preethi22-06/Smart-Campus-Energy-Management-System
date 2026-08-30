@@ -13,6 +13,7 @@ import com.preethi.smartcampus.dto.CampusAlertSummaryResponse;
 import com.preethi.smartcampus.dto.ActivePowerResponse;
 import com.preethi.smartcampus.dto.RoomActivePowerResponse;
 import com.preethi.smartcampus.dto.CampusStatisticsResponse;
+import com.preethi.smartcampus.dto.DeviceEnergySummaryResponse;
 import com.preethi.smartcampus.dto.EnergyResponse;
 import com.preethi.smartcampus.dto.RoomEnergyEfficiencyResponse;
 import com.preethi.smartcampus.dto.CampusEnergyEfficiencyResponse;
@@ -227,37 +228,7 @@ public double calculateTotalCost(double hours, double rate) {
 
     return totalEnergy * rate;
 }
-public String getDeviceEnergySummary(Long id, double hours, double rate) {
 
-    Device device = deviceRepository.findById(id).orElse(null);
-
-    if (device != null) {
-
-        double energy = (device.getPowerRating() * hours) / 1000;
-        double cost = energy * rate;
-
-        return "Device: " + device.getDeviceName()
-                + ", Energy: " + energy + " kWh"
-                + ", Cost: ₹" + cost;
-    }
-
-    return "Device not found";
-}
-public List<Device> getDevicesByStatus(String status) {
-
-    if (status == null ||
-        (!status.equalsIgnoreCase("ON") &&
-         !status.equalsIgnoreCase("OFF"))) {
-
-        throw new IllegalArgumentException(
-                "Device status must be ON or OFF"
-        );
-    }
-
-    return deviceRepository.findByStatus(
-            status.toUpperCase()
-    );
-}
 public List<Device> getDevicesByRoomAndStatus(Long roomId, String status) {
     return deviceRepository.findByRoomIdAndStatus(roomId, status);
 }
@@ -505,30 +476,7 @@ public double calculateActiveEnergyConsumption(Long id, double hours) {
 
     return 0;
 }
-public double calculateActiveEnergyCost(
-        Long id,
-        double hours,
-        double rate) {
 
-    if (hours <= 0) {
-        throw new IllegalArgumentException(
-                "Hours must be greater than 0"
-        );
-    }
-
-    if (rate < 0) {
-        throw new IllegalArgumentException(
-                "Rate cannot be negative"
-        );
-    }
-
-    double energy = calculateActiveEnergyConsumption(
-            id,
-            hours
-    );
-
-    return energy * rate;
-}
 public double calculateActiveRoomEnergy(Long roomId, double hours) {
 
     List<Device> devices =
@@ -1407,6 +1355,95 @@ public Device getHighestPowerDeviceByFloor(Long floorId) {
     }
 
     return highestPowerDevice;
+}
+public DeviceEnergySummaryResponse getDeviceEnergySummary(
+        Long id,
+        double hours,
+        double rate) {
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    if (hours > 24) {
+        throw new IllegalArgumentException(
+                "Hours cannot exceed 24"
+        );
+    }
+
+    if (rate < 0) {
+        throw new IllegalArgumentException(
+                "Rate cannot be negative"
+        );
+    }
+
+    if (rate > 100) {
+        throw new IllegalArgumentException(
+                "Rate cannot exceed 100"
+        );
+    }
+
+    Device device = deviceRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Device not found with id: " + id
+                    )
+            );
+
+    double energy = 0;
+
+    if ("ON".equalsIgnoreCase(device.getStatus())) {
+        energy = (device.getPowerRating() * hours) / 1000;
+    }
+
+    double estimatedCost = energy * rate;
+
+    return new DeviceEnergySummaryResponse(
+            device.getId(),
+            device.getDeviceName(),
+            device.getDeviceType(),
+            device.getStatus(),
+            device.getPowerRating(),
+            energy,
+            estimatedCost,
+            hours,
+            rate
+    );
+}
+public double calculateActiveEnergyCost(
+        Long id,
+        double hours,
+        double rate) {
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    if (hours > 24) {
+        throw new IllegalArgumentException(
+                "Hours cannot exceed 24"
+        );
+    }
+
+    if (rate < 0) {
+        throw new IllegalArgumentException(
+                "Rate cannot be negative"
+        );
+    }
+
+    if (rate > 100) {
+        throw new IllegalArgumentException(
+                "Rate cannot exceed 100"
+        );
+    }
+
+    double energy = calculateActiveEnergyConsumption(id, hours);
+
+    return energy * rate;
 }
 
 }

@@ -17,7 +17,7 @@ import com.preethi.smartcampus.dto.CampusFloorStatisticsResponse;
 import com.preethi.smartcampus.dto.EnergyResponse;
 import com.preethi.smartcampus.dto.HighPowerDeviceSummaryResponse;
 import com.preethi.smartcampus.dto.CostResponse;
-
+import com.preethi.smartcampus.dto.DeviceEnergySummaryResponse;
 
 
 import java.util.List;
@@ -165,17 +165,18 @@ public double calculateTotalCost(
 
     return deviceService.calculateTotalCost(hours, rate);
 }
+
 @GetMapping("/{id}/energy-summary")
-public String getDeviceEnergySummary(
+public DeviceEnergySummaryResponse getDeviceEnergySummary(
         @PathVariable Long id,
         @RequestParam double hours,
         @RequestParam double rate) {
 
-    return deviceService.getDeviceEnergySummary(id, hours, rate);
-}
-@GetMapping("/status/{status}")
-public List<Device> getDevicesByStatus(@PathVariable String status) {
-    return deviceService.getDevicesByStatus(status);
+    return deviceService.getDeviceEnergySummary(
+            id,
+            hours,
+            rate
+    );
 }
 @GetMapping("/room/{roomId}/status/{status}")
 public List<Device> getDevicesByRoomAndStatus(
@@ -470,4 +471,5 @@ public double calculateActiveEnergyCost(
             rate
     );
 }
+
 }
