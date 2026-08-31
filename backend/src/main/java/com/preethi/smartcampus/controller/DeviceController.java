@@ -107,7 +107,7 @@ public EnergyResponse getRoomEnergy(
             hours
     );
 }
-@GetMapping("/{id}")
+@GetMapping("/{id:\\d+}")
 public Device getDeviceById(@PathVariable Long id) {
     return deviceService.getDeviceById(id);
 }
@@ -131,7 +131,7 @@ public Device updatePowerRating(
 
     return deviceService.updatePowerRating(id, powerRating);
 }
-@GetMapping("/{id}/energy")
+@GetMapping("/{id:\\d+}/energy")
 public EnergyResponse calculateEnergyConsumption(
         @PathVariable Long id,
         @RequestParam double hours) {
@@ -140,7 +140,7 @@ public EnergyResponse calculateEnergyConsumption(
 
     return new EnergyResponse(energy);
 }
-@GetMapping("/{id}/cost")
+@GetMapping("/{id:\\d+}/cost")
 public CostResponse calculateEnergyCost(
         @PathVariable Long id,
         @RequestParam double hours,
@@ -166,18 +166,7 @@ public double calculateTotalCost(
     return deviceService.calculateTotalCost(hours, rate);
 }
 
-@GetMapping("/{id}/energy-summary")
-public DeviceEnergySummaryResponse getDeviceEnergySummary(
-        @PathVariable Long id,
-        @RequestParam double hours,
-        @RequestParam double rate) {
 
-    return deviceService.getDeviceEnergySummary(
-            id,
-            hours,
-            rate
-    );
-}
 @GetMapping("/room/{roomId}/status/{status}")
 public List<Device> getDevicesByRoomAndStatus(
         @PathVariable Long roomId,
@@ -185,8 +174,9 @@ public List<Device> getDevicesByRoomAndStatus(
 
     return deviceService.getDevicesByRoomAndStatus(roomId, status);
 }
-@GetMapping("/{id}/alert")
+@GetMapping("/{id:\\d+}/alert")
 public String getDeviceAlert(@PathVariable Long id) {
+
     return deviceService.getDeviceAlert(id);
 }
 
@@ -265,7 +255,7 @@ public CampusDeviceSummaryResponse getCampusDeviceSummary(
 
     return deviceService.getCampusDeviceSummary(hours, rate);
 }
-@GetMapping("/{id}/energy/active")
+@GetMapping("/{id:\\d+}/energy/active")
 public double calculateActiveEnergyConsumption(
         @PathVariable Long id,
         @RequestParam double hours) {
@@ -459,7 +449,7 @@ public CampusDeviceSummaryResponse getFloorEnergyCost(
             rate
     );
 }
-@GetMapping("/{id}/active-energy-cost")
+@GetMapping("/{id:\\d+}/active-energy-cost")
 public double calculateActiveEnergyCost(
         @PathVariable Long id,
         @RequestParam double hours,
