@@ -461,5 +461,11 @@ public double calculateActiveEnergyCost(
             rate
     );
 }
+@GetMapping("/floor/{floorId}/alert-summary")
+public CampusAlertSummaryResponse getFloorAlertSummary(
+        @PathVariable Long floorId) {
+
+    return deviceService.getFloorAlertSummary(floorId);
+}
 
 }

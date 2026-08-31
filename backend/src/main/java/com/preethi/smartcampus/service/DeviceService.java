@@ -185,7 +185,11 @@ public double calculateEnergyConsumption(Long id, double hours) {
                 "Hours must be greater than 0"
         );
     }
-
+    if (hours > 24) {
+    throw new IllegalArgumentException(
+            "Hours cannot exceed 24"
+    );
+}
     Device device = deviceRepository.findById(id)
             .orElseThrow(() ->
                     new ResourceNotFoundException(
@@ -1444,6 +1448,64 @@ public double calculateActiveEnergyCost(
     double energy = calculateActiveEnergyConsumption(id, hours);
 
     return energy * rate;
+}
+public CampusAlertSummaryResponse getFloorAlertSummary(Long floorId) {
+
+    if (floorId == null || !floorRepository.existsById(floorId)) {
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
+    long totalDevices =
+            deviceRepository.countByRoomFloorId(floorId);
+
+    long onDevices =
+            deviceRepository.countByRoomFloorIdAndStatus(
+                    floorId,
+                    "ON"
+            );
+
+    long offDevices =
+            deviceRepository.countByRoomFloorIdAndStatus(
+                    floorId,
+                    "OFF"
+            );
+
+    double activePower = 0;
+
+    List<Device> devices =
+            deviceRepository.findByRoomFloorIdAndStatus(
+                    floorId,
+                    "ON"
+            );
+
+    for (Device device : devices) {
+        activePower += device.getPowerRating();
+    }
+
+    boolean alert = activePower > 500;
+
+    String message;
+
+    if (alert) {
+        message = "High power consumption detected on floor: "
+                + activePower + " W currently active.";
+    } else if (onDevices > 0) {
+        message = "Floor power usage is normal. "
+                + onDevices + " device(s) are currently ON.";
+    } else {
+        message = "No action required: All devices on this floor are OFF.";
+    }
+
+    return new CampusAlertSummaryResponse(
+            totalDevices,
+            onDevices,
+            offDevices,
+            activePower,
+            alert,
+            message
+    );
 }
 
 }
