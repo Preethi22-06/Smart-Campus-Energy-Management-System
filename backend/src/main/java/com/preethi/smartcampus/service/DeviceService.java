@@ -42,6 +42,12 @@ private FloorRepository floorRepository;
 
    public Device saveDevice(Device device) {
 
+    if (device == null) {
+    throw new IllegalArgumentException(
+            "Device cannot be null"
+    );
+}
+
     if (device.getDeviceName() == null ||
         device.getDeviceName().trim().isEmpty()) {
 
@@ -109,24 +115,25 @@ device.setStatus(device.getStatus().toUpperCase());
 }
 public Device updateDeviceStatus(Long id, String status) {
 
-    Device device = deviceRepository.findById(id)
-            .orElseThrow(() ->
-                    new ResourceNotFoundException(
-                            "Device not found with id: " + id
-                    )
-            );
-            if (device.getStatus().equalsIgnoreCase(status)) {
-    throw new IllegalArgumentException(
-            "Device is already " + status.toUpperCase()
-    );
-}
-
     if (status == null ||
         (!status.equalsIgnoreCase("ON") &&
          !status.equalsIgnoreCase("OFF"))) {
 
         throw new IllegalArgumentException(
                 "Device status must be ON or OFF"
+        );
+    }
+
+    Device device = deviceRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Device not found with id: " + id
+                    )
+            );
+
+    if (device.getStatus().equalsIgnoreCase(status)) {
+        throw new IllegalArgumentException(
+                "Device is already " + status.toUpperCase()
         );
     }
 
@@ -207,6 +214,12 @@ public double calculateEnergyCost(Long id, double hours, double rate) {
         );
     }
 
+    if (rate > 100) {
+        throw new IllegalArgumentException(
+                "Rate cannot exceed 100"
+        );
+    }
+
     double energy = calculateEnergyConsumption(id, hours);
 
     return energy * rate;
@@ -215,6 +228,18 @@ public long countAllDevices() {
     return deviceRepository.count();
 }
 public double calculateTotalEnergy(double hours) {
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    if (hours > 24) {
+        throw new IllegalArgumentException(
+                "Hours cannot exceed 24"
+        );
+    }
 
     List<Device> devices = deviceRepository.findAll();
 
@@ -228,11 +253,22 @@ public double calculateTotalEnergy(double hours) {
 }
 public double calculateTotalCost(double hours, double rate) {
 
+    if (rate < 0) {
+        throw new IllegalArgumentException(
+                "Rate cannot be negative"
+        );
+    }
+
+    if (rate > 100) {
+        throw new IllegalArgumentException(
+                "Rate cannot exceed 100"
+        );
+    }
+
     double totalEnergy = calculateTotalEnergy(hours);
 
     return totalEnergy * rate;
 }
-
 public List<Device> getDevicesByRoomAndStatus(Long roomId, String status) {
     return deviceRepository.findByRoomIdAndStatus(roomId, status);
 }
@@ -469,12 +505,28 @@ public CampusDeviceSummaryResponse getCampusDeviceSummary(
         rate
 );
 }
-
 public double calculateActiveEnergyConsumption(Long id, double hours) {
 
-    Device device = deviceRepository.findById(id).orElse(null);
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
 
-    if (device != null && "ON".equals(device.getStatus())) {
+    if (hours > 24) {
+        throw new IllegalArgumentException(
+                "Hours cannot exceed 24"
+        );
+    }
+
+    Device device = deviceRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Device not found with id: " + id
+                    )
+            );
+
+    if ("ON".equalsIgnoreCase(device.getStatus())) {
         return (device.getPowerRating() * hours) / 1000;
     }
 
@@ -903,6 +955,11 @@ public double getTotalPowerByFloor(Long floorId) {
 public Device updateDevice(
         Long id,
         Device updatedDevice) {
+            if (updatedDevice == null) {
+    throw new IllegalArgumentException(
+            "Device cannot be null"
+    );
+}
 
     Device existingDevice = deviceRepository.findById(id)
             .orElseThrow(() ->
