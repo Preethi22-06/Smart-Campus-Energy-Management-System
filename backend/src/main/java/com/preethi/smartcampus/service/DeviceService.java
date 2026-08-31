@@ -302,6 +302,18 @@ public double calculateRoomEnergy(Long roomId, double hours) {
 }
 public double calculateRoomCost(Long roomId, double hours, double rate) {
 
+    if (rate < 0) {
+        throw new IllegalArgumentException(
+                "Rate cannot be negative"
+        );
+    }
+
+    if (rate > 100) {
+        throw new IllegalArgumentException(
+                "Rate cannot exceed 100"
+        );
+    }
+
     double totalEnergy = calculateRoomEnergy(roomId, hours);
 
     return totalEnergy * rate;
@@ -534,6 +546,24 @@ public double calculateActiveEnergyConsumption(Long id, double hours) {
 }
 
 public double calculateActiveRoomEnergy(Long roomId, double hours) {
+
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    if (hours > 24) {
+        throw new IllegalArgumentException(
+                "Hours cannot exceed 24"
+        );
+    }
 
     List<Device> devices =
             deviceRepository.findByRoomIdAndStatus(roomId, "ON");
