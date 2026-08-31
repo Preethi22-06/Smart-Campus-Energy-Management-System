@@ -386,14 +386,14 @@ public List<Device> getHighPowerDevicesByFloor(
             threshold
     );
 }
-@PutMapping("/{id}")
+@PutMapping("/{id:\\d+}")
 public Device updateDevice(
         @PathVariable Long id,
         @RequestBody Device device) {
 
     return deviceService.updateDevice(id, device);
 }
-@DeleteMapping("/{id}")
+@DeleteMapping("/{id:\\d+}")
 public void deleteDevice(@PathVariable Long id) {
     deviceService.deleteDevice(id);
 }
