@@ -576,9 +576,25 @@ public double calculateActiveRoomEnergy(Long roomId, double hours) {
 
     return totalEnergy;
 }
-public double calculateActiveRoomCost(Long roomId, double hours, double rate) {
+public double calculateActiveRoomCost(
+        Long roomId,
+        double hours,
+        double rate) {
 
-    double activeEnergy = calculateActiveRoomEnergy(roomId, hours);
+    if (rate < 0) {
+        throw new IllegalArgumentException(
+                "Rate cannot be negative"
+        );
+    }
+
+    if (rate > 100) {
+        throw new IllegalArgumentException(
+                "Rate cannot exceed 100"
+        );
+    }
+
+    double activeEnergy =
+            calculateActiveRoomEnergy(roomId, hours);
 
     return activeEnergy * rate;
 }
@@ -797,6 +813,11 @@ public List<Device> getActiveHighPowerDevices(double threshold) {
 }
 public RoomEnergyEfficiencyResponse getRoomEnergyEfficiency(Long roomId) {
 
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+    throw new ResourceNotFoundException(
+            "Room not found with id: " + roomId
+    );
+}
     long totalDevices = deviceRepository.countByRoomId(roomId);
     long activeDevices = deviceRepository.countByRoomIdAndStatus(roomId, "ON");
 
@@ -1213,6 +1234,11 @@ public EnergyResponse getFloorEnergyByType(
                 "Hours must be greater than 0"
         );
     }
+    if (hours > 24) {
+    throw new IllegalArgumentException(
+            "Hours cannot exceed 24"
+    );
+}
 
     List<Device> devices =
             deviceRepository.findByRoomFloorIdAndStatus(
@@ -1258,6 +1284,11 @@ public EnergyResponse getRoomEnergyByType(
                 "Hours must be greater than 0"
         );
     }
+    if (hours > 24) {
+    throw new IllegalArgumentException(
+            "Hours cannot exceed 24"
+    );
+}
 
     List<Device> devices =
             deviceRepository.findByRoomIdAndStatus(
@@ -1311,6 +1342,11 @@ public EnergyResponse getRoomEnergy(
                 "Hours must be greater than 0"
         );
     }
+    if (hours > 24) {
+    throw new IllegalArgumentException(
+            "Hours cannot exceed 24"
+    );
+}
 
     double activePower = calculateActiveRoomPower(roomId);
 
@@ -1333,7 +1369,11 @@ public EnergyResponse getFloorEnergy(
                 "Hours must be greater than 0"
         );
     }
-
+if (hours > 24) {
+    throw new IllegalArgumentException(
+            "Hours cannot exceed 24"
+    );
+}
     double activePower = getActivePowerByFloor(floorId);
 
     double energy = (activePower * hours) / 1000;
