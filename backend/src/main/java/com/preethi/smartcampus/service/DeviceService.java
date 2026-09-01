@@ -806,6 +806,13 @@ public List<Device> getHighPowerDevicesByFloor(
     );
 }
 public List<Device> getActiveHighPowerDevices(double threshold) {
+
+    if (threshold < 0) {
+        throw new IllegalArgumentException(
+                "Power threshold cannot be negative"
+        );
+    }
+
     return deviceRepository.findByStatusAndPowerRatingGreaterThan(
             "ON",
             threshold
@@ -983,6 +990,12 @@ public double getActivePowerByFloor(Long floorId) {
     return activePower;
 }
 public List<Device> getHighPowerOnDevices(double threshold) {
+
+    if (threshold < 0) {
+        throw new IllegalArgumentException(
+                "Power threshold cannot be negative"
+        );
+    }
 
     return deviceRepository
             .findByStatusAndPowerRatingGreaterThan(
