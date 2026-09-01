@@ -918,10 +918,20 @@ public HighPowerDeviceSummaryResponse getHighPowerDeviceSummary(
 }
 public List<Device> getDevicesByFloorId(Long floorId) {
 
+     if (floorId == null || !floorRepository.existsById(floorId)) {
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
     return deviceRepository.findByRoomFloorId(floorId);
 } 
 public CampusFloorStatisticsResponse getFloorStatistics(Long floorId) {
 
+    if (floorId == null || !floorRepository.existsById(floorId)) {
+    throw new ResourceNotFoundException(
+            "Floor not found with id: " + floorId
+    );
+}
     long totalDevices =
             deviceRepository.countByRoomFloorId(floorId);
 
