@@ -19,6 +19,9 @@ import com.preethi.smartcampus.dto.HighPowerDeviceSummaryResponse;
 import com.preethi.smartcampus.dto.CostResponse;
 import com.preethi.smartcampus.dto.DeviceEnergySummaryResponse;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -466,6 +469,14 @@ public CampusAlertSummaryResponse getFloorAlertSummary(
         @PathVariable Long floorId) {
 
     return deviceService.getFloorAlertSummary(floorId);
+}
+@GetMapping("/{id}/energy-summary")
+public DeviceEnergySummaryResponse getDeviceEnergySummary(
+        @PathVariable Long id,
+        @RequestParam double hours,
+        @RequestParam double rate) {
+
+    return deviceService.getDeviceEnergySummary(id, hours, rate);
 }
 
 }

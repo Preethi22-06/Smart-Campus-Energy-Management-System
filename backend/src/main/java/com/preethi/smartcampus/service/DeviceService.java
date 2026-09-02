@@ -1530,6 +1530,11 @@ public DeviceEnergySummaryResponse getDeviceEnergySummary(
         double hours,
         double rate) {
 
+            if (id == null) {
+    throw new IllegalArgumentException(
+            "Device id cannot be null"
+    );
+}
     if (hours <= 0) {
         throw new IllegalArgumentException(
                 "Hours must be greater than 0"
