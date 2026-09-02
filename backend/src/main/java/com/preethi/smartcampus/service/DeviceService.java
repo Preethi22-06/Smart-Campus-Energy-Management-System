@@ -291,10 +291,23 @@ public String getDeviceAlert(Long id) {
 public double calculateRoomEnergy(Long roomId, double hours) {
 
     if (roomId == null || !roomRepository.existsById(roomId)) {
-    throw new ResourceNotFoundException(
-            "Room not found with id: " + roomId
-    );
-}
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
+    if (hours <= 0) {
+        throw new IllegalArgumentException(
+                "Hours must be greater than 0"
+        );
+    }
+
+    if (hours > 24) {
+        throw new IllegalArgumentException(
+                "Hours cannot exceed 24"
+        );
+    }
+
     List<Device> devices = deviceRepository.findByRoomId(roomId);
 
     double totalEnergy = 0;

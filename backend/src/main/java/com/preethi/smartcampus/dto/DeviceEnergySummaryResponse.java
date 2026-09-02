@@ -11,6 +11,7 @@ public class DeviceEnergySummaryResponse {
     private double estimatedCost;
     private double hours;
     private double rate;
+    
 
     private String powerUnit;
     private String energyUnit;
@@ -40,6 +41,7 @@ public class DeviceEnergySummaryResponse {
         this.powerUnit = "W";
         this.energyUnit = "kWh";
         this.currency = "INR";
+    
     }
 
     public Long getDeviceId() {

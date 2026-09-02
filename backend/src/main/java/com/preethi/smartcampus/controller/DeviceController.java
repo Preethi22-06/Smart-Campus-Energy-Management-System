@@ -479,4 +479,5 @@ public DeviceEnergySummaryResponse getDeviceEnergySummary(
     return deviceService.getDeviceEnergySummary(id, hours, rate);
 }
 
+
 }
