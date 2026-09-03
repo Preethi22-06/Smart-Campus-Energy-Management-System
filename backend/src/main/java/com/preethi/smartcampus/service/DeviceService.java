@@ -292,11 +292,12 @@ public List<Device> getDevicesByRoomAndStatus(Long roomId, String status) {
 }
 public String getDeviceAlert(Long id) {
 
-    Device device = deviceRepository.findById(id).orElse(null);
-
-    if (device == null) {
-        return "Device not found";
-    }
+    Device device = deviceRepository.findById(id)
+        .orElseThrow(() ->
+                new ResourceNotFoundException(
+                        "Device not found with id: " + id
+                )
+        );
 
     if ("ON".equals(device.getStatus())) {
         return "⚠️ Device " + device.getDeviceName()
@@ -1155,7 +1156,18 @@ public Device updateDevice(
                 "Room not found with id: " + roomId
         );
     }
+ if (!updatedDevice.getDeviceName().equalsIgnoreCase(existingDevice.getDeviceName())
+        || !roomId.equals(existingDevice.getRoom().getId())) {
 
+    if (deviceRepository.existsByDeviceNameAndRoomId(
+            updatedDevice.getDeviceName(),
+            roomId)) {
+
+        throw new IllegalArgumentException(
+                "A device with this name already exists in this room"
+        );
+    }
+}
     existingDevice.setDeviceName(
             updatedDevice.getDeviceName()
     );
