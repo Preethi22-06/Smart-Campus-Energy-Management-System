@@ -270,7 +270,25 @@ public double calculateTotalCost(double hours, double rate) {
     return totalEnergy * rate;
 }
 public List<Device> getDevicesByRoomAndStatus(Long roomId, String status) {
-    return deviceRepository.findByRoomIdAndStatus(roomId, status);
+
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
+    if (status == null ||
+            (!status.equalsIgnoreCase("ON") &&
+             !status.equalsIgnoreCase("OFF"))) {
+        throw new IllegalArgumentException(
+                "Device status must be ON or OFF"
+        );
+    }
+
+    return deviceRepository.findByRoomIdAndStatus(
+            roomId,
+            status.toUpperCase()
+    );
 }
 public String getDeviceAlert(Long id) {
 
@@ -356,6 +374,11 @@ public Device getHighestPowerDevice() {
 }
 public Device getHighestPowerDeviceByRoom(Long roomId) {
 
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+    throw new ResourceNotFoundException(
+            "Room not found with id: " + roomId
+    );
+}
     List<Device> devices = deviceRepository.findByRoomId(roomId);
 
     if (devices.isEmpty()) {
@@ -386,6 +409,11 @@ public double calculateTotalPower() {
 }
 public double calculateRoomPower(Long roomId) {
 
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+    throw new ResourceNotFoundException(
+            "Room not found with id: " + roomId
+    );
+}
     List<Device> devices = deviceRepository.findByRoomId(roomId);
 
     double totalPower = 0;
@@ -1001,6 +1029,12 @@ public List<Device> getOnDevicesByFloor(Long floorId) {
 }
 public List<Device> getOffDevicesByFloor(Long floorId) {
 
+    if (floorId == null || !floorRepository.existsById(floorId)) {
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
     return deviceRepository.findByRoomFloorIdAndStatus(
             floorId,
             "OFF"
@@ -1043,8 +1077,13 @@ public List<Device> getHighPowerOnDevices(double threshold) {
 }
 public double getTotalPowerByFloor(Long floorId) {
 
-    List<Device> devices =
-            deviceRepository.findByRoomFloorId(floorId);
+    if (floorId == null || !floorRepository.existsById(floorId)) {
+        throw new ResourceNotFoundException(
+                "Floor not found with id: " + floorId
+        );
+    }
+
+    List<Device> devices = deviceRepository.findByRoomFloorId(floorId);
 
     double totalPower = 0;
 
