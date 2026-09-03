@@ -444,17 +444,41 @@ public double calculateActiveRoomPower(Long roomId) {
 }
 public long countOnDevicesByRoom(Long roomId) {
 
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
     return deviceRepository.countByRoomIdAndStatus(roomId, "ON");
 }
 public long countOffDevicesByRoom(Long roomId) {
+
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
 
     return deviceRepository.countByRoomIdAndStatus(roomId, "OFF");
 }
 public long countDevicesByRoom(Long roomId) {
 
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
+
     return deviceRepository.countByRoomId(roomId);
 }
 public String getRoomAlert(Long roomId) {
+
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
 
     long onDevices = deviceRepository.countByRoomIdAndStatus(roomId, "ON");
 
@@ -495,6 +519,12 @@ public long countActiveDevices() {
     return deviceRepository.countByStatus("ON");
 }
 public RoomDeviceSummaryResponse getRoomDeviceSummary(Long roomId) {
+
+    if (roomId == null || !roomRepository.existsById(roomId)) {
+        throw new ResourceNotFoundException(
+                "Room not found with id: " + roomId
+        );
+    }
 
     long totalDevices = deviceRepository.countByRoomId(roomId);
     long onDevices = deviceRepository.countByRoomIdAndStatus(roomId, "ON");
