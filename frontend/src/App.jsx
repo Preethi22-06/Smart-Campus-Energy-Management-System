@@ -1,25 +1,14 @@
-import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
 import Dashboard from "./Dashboard";
+import Devices from "./Devices";
 
 function App() {
-  return (
-    <div className="flex min-h-screen bg-[#0b1120]">
+  const path = window.location.pathname;
 
-      <Sidebar />
+  if (path === "/devices") {
+    return <Devices />;
+  }
 
-      <div className="flex-1 flex flex-col">
-
-        <Navbar />
-
-        <main className="flex-1">
-          <Dashboard />
-        </main>
-
-      </div>
-
-    </div>
-  );
+  return <Dashboard />;
 }
 
 export default App;
