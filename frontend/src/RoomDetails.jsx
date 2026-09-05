@@ -21,6 +21,13 @@ const rate = 8;
 
 const activeEnergy = (activePower * hours) / 1000;
 const estimatedCost = activeEnergy * rate;
+let energyStatus = "Normal";
+let energyMessage = "Room energy usage is within the expected range.";
+
+if (activePower > 100) {
+  energyStatus = "High Usage";
+  energyMessage = "Room is consuming a high amount of power.";
+}
 
   useEffect(() => {
     fetch(`http://localhost:8080/rooms/${roomId}`)
@@ -127,6 +134,40 @@ const estimatedCost = activeEnergy * rate;
     </div>
 
   </div>
+
+</div>
+{/* Energy Status */}
+<div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 mb-8">
+
+  <p className="text-sm text-slate-400">
+    Energy Status
+  </p>
+
+  <div className="flex items-center gap-3 mt-4">
+
+    <span
+      className={`w-3 h-3 rounded-full ${
+        energyStatus === "Normal"
+          ? "bg-emerald-400"
+          : "bg-red-400"
+      }`}
+    ></span>
+
+    <h2
+      className={`text-xl font-semibold ${
+        energyStatus === "Normal"
+          ? "text-emerald-400"
+          : "text-red-400"
+      }`}
+    >
+      {energyStatus}
+    </h2>
+
+  </div>
+
+  <p className="text-slate-400 mt-3">
+    {energyMessage}
+  </p>
 
 </div>
 
