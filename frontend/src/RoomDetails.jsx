@@ -99,6 +99,34 @@ function RoomDetails() {
               <p className="text-sm text-slate-400 mt-4">
                 Power: {device.powerRating} W
               </p>
+              <button
+  onClick={() => {
+    const action = device.status === "ON" ? "off" : "on";
+
+    fetch(`http://localhost:8080/devices/${device.id}/${action}`, {
+      method: "PUT",
+    })
+      .then((response) => response.json())
+      .then((updatedDevice) => {
+        setRoom((prevRoom) => ({
+          ...prevRoom,
+          devices: prevRoom.devices.map((d) =>
+            d.id === updatedDevice.id ? updatedDevice : d
+          ),
+        }));
+      })
+      .catch((error) => {
+        console.error("Error updating device:", error);
+      });
+  }}
+  className={`mt-5 w-full py-2 rounded-xl font-medium transition ${
+    device.status === "ON"
+      ? "bg-red-500/10 text-red-400 hover:bg-red-500/20"
+      : "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
+  }`}
+>
+  {device.status === "ON" ? "Turn OFF" : "Turn ON"}
+</button>
 
             </div>
           ))}
