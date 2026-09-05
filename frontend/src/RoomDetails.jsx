@@ -5,6 +5,17 @@ function RoomDetails() {
   const [room, setRoom] = useState(null);
 
   const roomId = window.location.pathname.split("/")[2];
+  const totalDevices = room?.devices?.length || 0;
+
+const activeDevices =
+  room?.devices?.filter((device) => device.status === "ON").length || 0;
+
+const inactiveDevices = totalDevices - activeDevices;
+
+const activePower =
+  room?.devices
+    ?.filter((device) => device.status === "ON")
+    .reduce((total, device) => total + device.powerRating, 0) || 0;
 
   useEffect(() => {
     fetch(`http://localhost:8080/rooms/${roomId}`)
@@ -51,6 +62,40 @@ function RoomDetails() {
           Monitor devices and energy usage in this room.
         </p>
       </div>
+      {/* Room Statistics */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Total Devices
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2">
+      {totalDevices}
+    </h2>
+  </div>
+
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Active Devices
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2 text-emerald-400">
+      {activeDevices}
+    </h2>
+  </div>
+
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Active Power
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2 text-yellow-400">
+      {activePower} W
+    </h2>
+  </div>
+
+</div>
 
       {/* Devices */}
       <div>
