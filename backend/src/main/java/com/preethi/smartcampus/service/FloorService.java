@@ -111,4 +111,7 @@ public Floor updateFloor(
 
         floorRepository.deleteById(id);
     }
+    public List<Floor> getFloorsByBuilding(Long buildingId) {
+    return floorRepository.findByBuildingId(buildingId);
+}
 }

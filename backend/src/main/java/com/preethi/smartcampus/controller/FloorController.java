@@ -19,11 +19,16 @@ public class FloorController {
     public List<Floor> getAllFloors() {
         return floorService.getAllFloors();
     }
+    @GetMapping("/building/{buildingId}")
+public List<Floor> getFloorsByBuilding(@PathVariable Long buildingId) {
+    return floorService.getFloorsByBuilding(buildingId);
+}
 
     @GetMapping("/{id}")
 public Floor getFloorById(@PathVariable Long id) {
     return floorService.getFloorById(id);
 }
+
 
     @PostMapping
     public Floor addFloor(@RequestBody Floor floor) {
