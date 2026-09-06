@@ -74,12 +74,49 @@ if (activePower > 100) {
           Monitor devices and energy usage in this room.
         </p>
       </div>
-      {/* Room Statistics */}
+       {/* Room Statistics */}
 <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-    {/* Energy Overview */}
+
+  {/* Total Devices */}
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Total Devices
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2">
+      {totalDevices}
+    </h2>
+  </div>
+
+  {/* Active Devices */}
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Active Devices
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2 text-emerald-400">
+      {activeDevices}
+    </h2>
+  </div>
+
+  {/* Active Power */}
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Active Power
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2 text-yellow-400">
+      {activePower} W
+    </h2>
+  </div>
+
+</div>
+
+{/* Energy Overview */}
 <div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 mb-8">
 
   <div className="flex items-center justify-between mb-6">
+
     <div>
       <p className="text-sm text-slate-400">
         Energy Overview
@@ -99,6 +136,7 @@ if (activePower > 100) {
         Estimated consumption
       </p>
     </div>
+
   </div>
 
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -136,6 +174,7 @@ if (activePower > 100) {
   </div>
 
 </div>
+
 {/* Energy Status */}
 <div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 mb-8">
 
@@ -168,38 +207,6 @@ if (activePower > 100) {
   <p className="text-slate-400 mt-3">
     {energyMessage}
   </p>
-
-</div>
-
-  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
-    <p className="text-sm text-slate-400">
-      Total Devices
-    </p>
-
-    <h2 className="text-3xl font-semibold mt-2">
-      {totalDevices}
-    </h2>
-  </div>
-
-  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
-    <p className="text-sm text-slate-400">
-      Active Devices
-    </p>
-
-    <h2 className="text-3xl font-semibold mt-2 text-emerald-400">
-      {activeDevices}
-    </h2>
-  </div>
-
-  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
-    <p className="text-sm text-slate-400">
-      Active Power
-    </p>
-
-    <h2 className="text-3xl font-semibold mt-2 text-yellow-400">
-      {activePower} W
-    </h2>
-  </div>
 
 </div>
 
