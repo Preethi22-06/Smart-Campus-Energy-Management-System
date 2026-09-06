@@ -5,6 +5,7 @@ function RoomDetails() {
   const [room, setRoom] = useState(null);
 
   const roomId = window.location.pathname.split("/")[2];
+  const floorId = new URLSearchParams(window.location.search).get("floor");
   const totalDevices = room?.devices?.length || 0;
 
 const activeDevices =
@@ -53,12 +54,14 @@ if (activePower > 100) {
 
       {/* Back */}
       <button
-        onClick={() => window.history.back()}
-        className="flex items-center gap-2 text-slate-400 hover:text-white transition mb-8"
-      >
-        <ArrowLeft size={18} />
-        Back
-      </button>
+ onClick={() => {
+  window.location.href = `/floors/${floorId}`;
+}}
+  className="flex items-center gap-2 text-slate-400 hover:text-white transition mb-8"
+>
+  <ArrowLeft size={18} />
+  Back to Floor
+</button>
 
       {/* Header */}
       <div className="mb-8">
