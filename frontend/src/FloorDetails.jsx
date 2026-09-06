@@ -5,6 +5,30 @@ function FloorDetails() {
   const [floor, setFloor] = useState(null);
 
   const floorId = window.location.pathname.split("/")[2];
+  const totalRooms = floor?.rooms?.length || 0;
+
+const totalDevices =
+  floor?.rooms?.reduce(
+    (total, room) => total + (room.devices?.length || 0),
+    0
+  ) || 0;
+
+const activePower =
+  floor?.rooms?.reduce(
+    (total, room) =>
+      total +
+      (room.devices || [])
+        .filter((device) => device.status === "ON")
+        .reduce((power, device) => power + device.powerRating, 0),
+    0
+  ) || 0;
+  let energyStatus = "Normal";
+let energyMessage = "Floor energy usage is within the expected range.";
+
+if (activePower > 300) {
+  energyStatus = "High Usage";
+  energyMessage = "Floor is consuming a high amount of power.";
+}
 
   useEffect(() => {
     fetch(`http://localhost:8080/floors/${floorId}`)
@@ -44,6 +68,72 @@ function FloorDetails() {
     <p className="text-slate-400 mt-2">
       Rooms on this floor
     </p>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8 mb-8">
+
+   <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Total Rooms
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2">
+      {totalRooms}
+    </h2>
+    <div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 mb-8">
+
+  <p className="text-sm text-slate-400">
+    Energy Status
+  </p>
+
+  <div className="flex items-center gap-3 mt-4">
+
+    <span
+      className={`w-3 h-3 rounded-full ${
+        energyStatus === "Normal"
+          ? "bg-emerald-400"
+          : "bg-red-400"
+      }`}
+    ></span>
+
+    <h2
+      className={`text-xl font-semibold ${
+        energyStatus === "Normal"
+          ? "text-emerald-400"
+          : "text-red-400"
+      }`}
+    >
+      {energyStatus}
+    </h2>
+
+  </div>
+
+  <p className="text-slate-400 mt-3">
+    {energyMessage}
+  </p>
+
+</div>
+  </div>
+
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Total Devices
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2">
+      {totalDevices}
+    </h2>
+  </div>
+
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Active Power
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2 text-yellow-400">
+      {activePower} W
+    </h2>
+  </div>
+
+</div>
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
       {floor.rooms.map((room) => (
