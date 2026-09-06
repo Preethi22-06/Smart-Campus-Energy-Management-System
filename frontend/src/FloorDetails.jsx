@@ -68,9 +68,10 @@ if (activePower > 300) {
     <p className="text-slate-400 mt-2">
       Rooms on this floor
     </p>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8 mb-8">
+     <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8 mb-8">
 
-   <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+  {/* Total Rooms */}
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
     <p className="text-sm text-slate-400">
       Total Rooms
     </p>
@@ -78,7 +79,34 @@ if (activePower > 300) {
     <h2 className="text-3xl font-semibold mt-2">
       {totalRooms}
     </h2>
-    <div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 mb-8">
+  </div>
+
+  {/* Total Devices */}
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Total Devices
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2">
+      {totalDevices}
+    </h2>
+  </div>
+
+  {/* Active Power */}
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+    <p className="text-sm text-slate-400">
+      Active Power
+    </p>
+
+    <h2 className="text-3xl font-semibold mt-2 text-yellow-400">
+      {activePower} W
+    </h2>
+  </div>
+
+</div>
+
+{/* Energy Status */}
+<div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 mb-8">
 
   <p className="text-sm text-slate-400">
     Energy Status
@@ -111,49 +139,6 @@ if (activePower > 300) {
   </p>
 
 </div>
-  </div>
-
-  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
-    <p className="text-sm text-slate-400">
-      Total Devices
-    </p>
-
-    <h2 className="text-3xl font-semibold mt-2">
-      {totalDevices}
-    </h2>
-  </div>
-
-  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
-    <p className="text-sm text-slate-400">
-      Active Power
-    </p>
-
-    <h2 className="text-3xl font-semibold mt-2 text-yellow-400">
-      {activePower} W
-    </h2>
-  </div>
-
-</div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
-      {floor.rooms.map((room) => (
-        <div
-          key={room.id}
-        onClick={() => {
-  window.location.href = `/rooms/${room.id}?floor=${floorId}`;
-}}
-          className="bg-[#111827] border border-slate-800 rounded-2xl p-6 hover:border-blue-500/50 transition cursor-pointer"
-        >
-          <p className="text-sm text-slate-400">
-            Room
-          </p>
-
-          <h2 className="text-2xl font-semibold mt-2">
-            {room.roomNumber}
-          </h2>
-        </div>
-      ))}
-    </div>
 
   </div>
 );

@@ -31,7 +31,8 @@ function Dashboard() {
     ]
   : [];
 
-  useEffect(() => {
+useEffect(() => {
+  const fetchSummary = () => {
     fetch("http://localhost:8080/devices/summary?hours=5&rate=8")
       .then((response) => response.json())
       .then((data) => {
@@ -40,7 +41,14 @@ function Dashboard() {
       .catch((error) => {
         console.error("Error fetching campus summary:", error);
       });
-  }, []);
+  };
+
+  fetchSummary();
+
+  const interval = setInterval(fetchSummary, 5000);
+
+  return () => clearInterval(interval);
+}, []);
 
   if (!summary) {
     return (
@@ -201,7 +209,13 @@ function Dashboard() {
 
     <div className="flex items-center gap-3 mt-4">
 
-      <span className="w-3 h-3 rounded-full bg-emerald-400"></span>
+     <span
+  className={`w-3 h-3 rounded-full ${
+    summary.energyStatus === "Normal"
+      ? "bg-emerald-400"
+      : "bg-red-400"
+  }`}
+></span>
 
       <span className="text-lg font-semibold">
         {summary.energyStatus}
