@@ -1,26 +1,40 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, Layers3 } from "lucide-react";
 
+
 function BuildingDetails() {
-  const [floors, setFloors] = useState([]);
-  const [loading, setLoading] = useState(true);
+   const [floors, setFloors] = useState([]);
+const [loading, setLoading] = useState(true);
+const [building, setBuilding] = useState(null);
+const [floorsLoading, setFloorsLoading] = useState(true);
 
   const buildingId = window.location.pathname.split("/")[2];
 
-  useEffect(() => {
-    fetch(`http://localhost:8080/floors/building/${buildingId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setFloors(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching floors:", error);
-        setLoading(false);
-      });
-  }, [buildingId]);
+   useEffect(() => {
+  fetch(`http://localhost:8080/floors/building/${buildingId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      setFloors(data);
+      setFloorsLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching floors:", error);
+      setFloorsLoading(false);
+    });
 
-  if (loading) {
+  fetch(`http://localhost:8080/buildings/${buildingId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      setBuilding(data);
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching building:", error);
+      setLoading(false);
+    });
+}, [buildingId]);
+
+  if (loading || floorsLoading) {
     return (
       <div className="min-h-screen bg-[#0b1120] text-white p-8">
         Loading floors...
@@ -44,13 +58,13 @@ function BuildingDetails() {
 
       {/* Header */}
       <div className="mb-8">
-        <p className="text-sm text-slate-400">
-          Building {buildingId}
-        </p>
+       <p className="text-sm text-slate-400">
+      Building
+      </p>
 
         <h2 className="text-3xl font-semibold mt-1">
-          Floors
-        </h2>
+       {building?.buildingName || `Building ${buildingId}`}
+      </h2>
 
         <p className="text-slate-400 mt-2">
           Select a floor to view its rooms and devices.
