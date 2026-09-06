@@ -73,7 +73,7 @@ useEffect(() => {
 </div>
 
     {/* Statistics */}
-<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-5">
 
   <StatCard
     title="Total Devices"
@@ -90,6 +90,14 @@ useEffect(() => {
     iconColor="text-emerald-400"
     iconBackground="bg-emerald-500/10"
   />
+  <StatCard
+  title="Inactive Devices"
+  value={summary.offDevices}
+  icon={Activity}
+  iconColor="text-slate-400"
+  iconBackground="bg-slate-500/10"
+/>
+ 
 
   <StatCard
     title="Active Power"
