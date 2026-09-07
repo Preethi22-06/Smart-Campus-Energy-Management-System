@@ -42,6 +42,7 @@ if (activePower > 300) {
 }
 
   useEffect(() => {
+  const fetchFloor = () => {
     fetch(`http://localhost:8080/floors/${floorId}`)
       .then((response) => response.json())
       .then((data) => {
@@ -50,7 +51,14 @@ if (activePower > 300) {
       .catch((error) => {
         console.error("Error fetching floor:", error);
       });
-  }, [floorId]);
+  };
+
+  fetchFloor();
+
+  const interval = setInterval(fetchFloor, 5000);
+
+  return () => clearInterval(interval);
+}, [floorId]);
 
   if (!floor) {
     return (
