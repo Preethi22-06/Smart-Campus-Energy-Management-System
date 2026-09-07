@@ -30,7 +30,8 @@ if (activePower > 100) {
   energyMessage = "Room is consuming a high amount of power.";
 }
 
-  useEffect(() => {
+ useEffect(() => {
+  const fetchRoom = () => {
     fetch(`http://localhost:8080/rooms/${roomId}`)
       .then((response) => response.json())
       .then((data) => {
@@ -39,7 +40,14 @@ if (activePower > 100) {
       .catch((error) => {
         console.error("Error fetching room:", error);
       });
-  }, [roomId]);
+  };
+
+  fetchRoom();
+
+  const interval = setInterval(fetchRoom, 5000);
+
+  return () => clearInterval(interval);
+}, [roomId]);
 
   if (!room) {
     return (
