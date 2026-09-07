@@ -73,20 +73,20 @@ if (activePower > 100) {
 
       {/* Header */}
       <div className="mb-8">
-        <p className="text-sm text-slate-400">
-          Room
-        </p>
+  <p className="text-sm text-slate-400">
+    Floor {floorId}
+  </p>
 
-        <h1 className="text-3xl font-semibold mt-1">
-          {room.roomNumber}
-        </h1>
+  <h1 className="text-3xl font-semibold mt-1">
+    Room {room.roomNumber}
+  </h1>
 
         <p className="text-slate-400 mt-2">
           Monitor devices and energy usage in this room.
         </p>
       </div>
        {/* Room Statistics */}
-<div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+<div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
 
   {/* Total Devices */}
   <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
@@ -110,6 +110,16 @@ if (activePower > 100) {
     </h2>
   </div>
 
+   {/* Inactive Devices */}
+<div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
+  <p className="text-sm text-slate-400">
+    Inactive Devices
+  </p>
+
+  <h2 className="text-3xl font-semibold mt-2 text-slate-400">
+    {inactiveDevices}
+  </h2>
+</div>
   {/* Active Power */}
   <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5">
     <p className="text-sm text-slate-400">
