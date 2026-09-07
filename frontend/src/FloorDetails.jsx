@@ -187,7 +187,18 @@ if (activePower > 300) {
 
   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-    {floor.rooms.map((room) => {
+     {floor.rooms.length === 0 ? (
+  <div className="bg-[#111827] border border-slate-800 rounded-2xl p-8 text-center md:col-span-2">
+    <h3 className="text-lg font-semibold">
+      No rooms found
+    </h3>
+
+    <p className="text-sm text-slate-400 mt-2">
+      No rooms have been added to this floor yet.
+    </p>
+  </div>
+) : (
+  floor.rooms.map((room) => {
 
       const roomDevices = room.devices || [];
 
@@ -255,8 +266,9 @@ if (activePower > 300) {
           </div>
 
         </div>
-      );
-    })}
+        );
+    })
+  )}
 
   </div>
 </div>
