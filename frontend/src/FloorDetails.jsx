@@ -179,6 +179,87 @@ if (activePower > 300) {
   </p>
 
 </div>
+{/* Rooms */}
+<div>
+  <h2 className="text-xl font-semibold mb-5">
+    Rooms
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+    {floor.rooms.map((room) => {
+
+      const roomDevices = room.devices || [];
+
+      const roomActiveDevices = roomDevices.filter(
+        (device) => device.status === "ON"
+      ).length;
+
+      const roomActivePower = roomDevices
+        .filter((device) => device.status === "ON")
+        .reduce(
+          (total, device) => total + device.powerRating,
+          0
+        );
+
+      return (
+        <div
+          key={room.id}
+          onClick={() => {
+            window.location.href =
+              `/rooms/${room.id}?floor=${floorId}`;
+          }}
+          className="bg-[#111827] border border-slate-800 rounded-2xl p-6 hover:border-blue-500/50 transition cursor-pointer"
+        >
+
+          <p className="text-sm text-slate-400">
+            Room
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-2">
+            {room.roomNumber}
+          </h2>
+
+          <div className="grid grid-cols-3 gap-3 mt-5">
+
+            <div className="bg-[#0b1120] rounded-xl p-3">
+              <p className="text-xs text-slate-400">
+                Devices
+              </p>
+
+              <p className="text-lg font-semibold mt-1">
+                {roomDevices.length}
+              </p>
+            </div>
+
+            <div className="bg-[#0b1120] rounded-xl p-3">
+              <p className="text-xs text-slate-400">
+                Active
+              </p>
+
+              <p className="text-lg font-semibold mt-1 text-emerald-400">
+                {roomActiveDevices}
+              </p>
+            </div>
+
+            <div className="bg-[#0b1120] rounded-xl p-3">
+              <p className="text-xs text-slate-400">
+                Power
+              </p>
+
+              <p className="text-lg font-semibold mt-1 text-yellow-400">
+                {roomActivePower} W
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      );
+    })}
+
+  </div>
+</div>
 
   </div>
 );
