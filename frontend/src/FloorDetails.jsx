@@ -191,6 +191,102 @@ function FloorDetails() {
         </p>
 
       </div>
+            {/* Rooms Requiring Attention */}
+<div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 mb-8">
+
+  <div className="flex items-center justify-between mb-5">
+    <div>
+      <p className="text-sm text-slate-400">
+        Maintenance
+      </p>
+
+      <h2 className="text-xl font-semibold mt-1">
+        Rooms Requiring Attention
+      </h2>
+    </div>
+  </div>
+
+  {floor.rooms.filter((room) => {
+    const roomDevices = room.devices || [];
+
+    const roomActivePower = roomDevices
+      .filter((device) => device.status === "ON")
+      .reduce(
+        (total, device) => total + device.powerRating,
+        0
+      );
+
+    return roomActivePower > 0;
+  }).length === 0 ? (
+
+    <p className="text-slate-400">
+      No rooms currently require attention.
+    </p>
+
+  ) : (
+
+    <div className="space-y-3">
+
+      {floor.rooms
+        .filter((room) => {
+          const roomDevices = room.devices || [];
+
+          const roomActivePower = roomDevices
+            .filter((device) => device.status === "ON")
+            .reduce(
+              (total, device) => total + device.powerRating,
+              0
+            );
+
+          return roomActivePower > 0;
+        })
+        .map((room) => {
+
+          const roomDevices = room.devices || [];
+
+          const roomActivePower = roomDevices
+            .filter((device) => device.status === "ON")
+            .reduce(
+              (total, device) => total + device.powerRating,
+              0
+            );
+
+          const isHighUsage = roomActivePower > 100;
+
+          return (
+            <div
+              key={room.id}
+              className="flex items-center justify-between bg-[#0b1120] rounded-xl p-4"
+            >
+
+              <div>
+                <p className="font-medium">
+                  Room {room.roomNumber}
+                </p>
+
+                <p className="text-sm text-slate-400 mt-1">
+                  {roomActivePower} W active power
+                </p>
+              </div>
+
+              <span
+                className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  isHighUsage
+                    ? "bg-red-500/10 text-red-400"
+                    : "bg-yellow-500/10 text-yellow-400"
+                }`}
+              >
+                {isHighUsage ? "High Usage" : "Active"}
+              </span>
+
+            </div>
+          );
+        })}
+
+    </div>
+  )}
+
+</div>
 
       {/* Rooms */}
       <div>
