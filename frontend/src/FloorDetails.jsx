@@ -238,12 +238,16 @@ function FloorDetails() {
                     0
                   );
 
-              /* Room Energy Status */
-              let roomEnergyStatus = "Normal";
+           /* Room Energy Status */
+let roomEnergyStatus = "Inactive";
 
-              if (roomActivePower > 100) {
-                roomEnergyStatus = "High Usage";
-              }
+if (roomActiveDevices > 0 && roomActivePower <= 100) {
+  roomEnergyStatus = "Active";
+}
+
+if (roomActivePower > 100) {
+  roomEnergyStatus = "High Usage";
+ }
 
               return (
                 <div
@@ -312,9 +316,11 @@ function FloorDetails() {
 
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        roomEnergyStatus === "Normal"
-                          ? "bg-emerald-500/10 text-emerald-400"
-                          : "bg-red-500/10 text-red-400"
+                       roomEnergyStatus === "Active"
+  ? "bg-emerald-500/10 text-emerald-400"
+  : roomEnergyStatus === "High Usage"
+    ? "bg-red-500/10 text-red-400"
+    : "bg-slate-500/10 text-slate-400"
                       }`}
                     >
                       {roomEnergyStatus}
