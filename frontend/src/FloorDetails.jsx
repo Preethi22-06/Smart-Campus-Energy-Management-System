@@ -38,6 +38,11 @@ function FloorDetails() {
           ),
       0
     ) || 0;
+    const hours = 5;
+const rate = 8;
+
+const activeEnergy = (activePower * hours) / 1000;
+const estimatedCost = activeEnergy * rate;
 
   let energyStatus = "Normal";
   let energyMessage =
@@ -156,6 +161,68 @@ function FloorDetails() {
         </div>
 
       </div>
+      {/* Energy Overview */}
+<div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 mb-8">
+
+  <div className="flex items-center justify-between mb-6">
+
+    <div>
+      <p className="text-sm text-slate-400">
+        Energy Overview
+      </p>
+
+      <h2 className="text-xl font-semibold mt-1">
+        Floor Consumption
+      </h2>
+    </div>
+
+    <div className="text-right">
+      <p className="text-2xl font-semibold">
+        {activeEnergy.toFixed(2)} kWh
+      </p>
+
+      <p className="text-sm text-slate-400">
+        Estimated consumption
+      </p>
+    </div>
+
+  </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <div className="bg-[#0b1120] rounded-xl p-4">
+      <p className="text-sm text-slate-400">
+        Active Power
+      </p>
+
+      <p className="text-xl font-semibold mt-2">
+        {activePower} W
+      </p>
+    </div>
+
+    <div className="bg-[#0b1120] rounded-xl p-4">
+      <p className="text-sm text-slate-400">
+        Monitoring Period
+      </p>
+
+      <p className="text-xl font-semibold mt-2">
+        {hours} hours
+      </p>
+    </div>
+
+    <div className="bg-[#0b1120] rounded-xl p-4">
+      <p className="text-sm text-slate-400">
+        Estimated Cost
+      </p>
+
+      <p className="text-xl font-semibold mt-2">
+        ₹{estimatedCost.toFixed(2)}
+      </p>
+    </div>
+
+  </div>
+
+</div>
 
       {/* Energy Status */}
       <div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 mb-8">
