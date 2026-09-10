@@ -1,4 +1,4 @@
-HEAD:README.md
+
 # Smart Campus Energy Management System
 
 A backend system for monitoring and managing electricity usage across campus
