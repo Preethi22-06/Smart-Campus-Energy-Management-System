@@ -4,10 +4,14 @@ import Buildings from "./Buildings";
 import BuildingDetails from "./BuildingDetails";
 import FloorDetails from "./FloorDetails";
 import RoomDetails from "./RoomDetails";
+import DeviceDetails from "./DeviceDetails";
 
 function App() {
   const path = window.location.pathname;
 
+    if (path.startsWith("/devices/")) {
+  return <DeviceDetails />;
+}
   if (path === "/devices") {
     return <Devices />;
   }

@@ -313,9 +313,14 @@ function Devices() {
                     {/* Device */}
                     <td className="px-6 py-4">
 
-                      <div className="font-medium">
-                        {device.deviceName || "Unnamed Device"}
-                      </div>
+                    <div
+                       onClick={() => {
+                               window.location.href = `/devices/${device.id}`;
+                          }}
+                      className="font-medium cursor-pointer hover:text-blue-400 transition"
+                      >
+                     {device.deviceName || "Unnamed Device"}
+                         </div>
 
                       <div className="text-xs text-slate-500 mt-1">
                         ID: {device.id}
