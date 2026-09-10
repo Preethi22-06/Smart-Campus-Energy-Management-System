@@ -117,7 +117,7 @@ function Dashboard() {
       </div>
 
       {/* Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-5 min-w-0">
 
         <StatCard
           title="Total Devices"
@@ -153,7 +153,7 @@ function Dashboard() {
 
         <StatCard
           title="Energy Consumption"
-          value={`${summary.activeEnergy} ${summary.energyUnit}`}
+          value={`${Number(summary.activeEnergy).toFixed(2)} ${summary.energyUnit}`}
           icon={BatteryCharging}
           iconColor="text-purple-400"
           iconBackground="bg-purple-500/10"
