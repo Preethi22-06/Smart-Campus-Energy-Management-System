@@ -258,72 +258,75 @@ const estimatedCost = activeEnergy * rate;
         </p>
 
       </div>
-            {/* Rooms Requiring Attention */}
+         {/* Rooms Requiring Attention */}
 <div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 mb-8">
 
-  <div className="flex items-center justify-between mb-5">
-    <div>
-      <p className="text-sm text-slate-400">
-        Maintenance
-      </p>
+  <div className="mb-5">
+    <p className="text-sm text-slate-400">
+      Maintenance
+    </p>
 
-      <h2 className="text-xl font-semibold mt-1">
-        Rooms Requiring Attention
-      </h2>
-    </div>
+    <h2 className="text-xl font-semibold mt-1">
+      Rooms Requiring Attention
+    </h2>
+
+    <p className="text-sm text-slate-400 mt-2">
+      Rooms with active devices that may need inspection.
+    </p>
   </div>
 
   {floor.rooms.filter((room) => {
     const roomDevices = room.devices || [];
 
-    const roomActivePower = roomDevices
-      .filter((device) => device.status === "ON")
-      .reduce(
-        (total, device) => total + device.powerRating,
-        0
-      );
-
-    return roomActivePower > 0;
+    return roomDevices.some(
+      (device) => device.status === "ON"
+    );
   }).length === 0 ? (
 
-    <p className="text-slate-400">
-      No rooms currently require attention.
-    </p>
+    <div className="bg-[#0b1120] rounded-xl p-5 text-center">
+      <p className="text-emerald-400 font-medium">
+        Everything is OK
+      </p>
+
+      <p className="text-sm text-slate-400 mt-2">
+        No rooms currently have active devices.
+      </p>
+    </div>
 
   ) : (
 
     <div className="space-y-3">
-
       {floor.rooms
         .filter((room) => {
           const roomDevices = room.devices || [];
 
-          const roomActivePower = roomDevices
-            .filter((device) => device.status === "ON")
-            .reduce(
-              (total, device) => total + device.powerRating,
-              0
-            );
-
-          return roomActivePower > 0;
+          return roomDevices.some(
+            (device) => device.status === "ON"
+          );
         })
         .map((room) => {
 
           const roomDevices = room.devices || [];
 
-          const roomActivePower = roomDevices
-            .filter((device) => device.status === "ON")
-            .reduce(
-              (total, device) => total + device.powerRating,
-              0
-            );
+          const roomActiveDevices = roomDevices.filter(
+            (device) => device.status === "ON"
+          );
+
+          const roomActivePower = roomActiveDevices.reduce(
+            (total, device) => total + device.powerRating,
+            0
+          );
 
           const isHighUsage = roomActivePower > 100;
 
           return (
             <div
               key={room.id}
-              className="flex items-center justify-between bg-[#0b1120] rounded-xl p-4"
+              onClick={() => {
+                window.location.href =
+                  `/rooms/${room.id}?floor=${floorId}`;
+              }}
+              className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-[#0b1120] rounded-xl p-4 border border-slate-800 hover:border-blue-500/50 transition cursor-pointer"
             >
 
               <div>
@@ -332,24 +335,33 @@ const estimatedCost = activeEnergy * rate;
                 </p>
 
                 <p className="text-sm text-slate-400 mt-1">
+                  {roomActiveDevices.length} active device(s)
+                </p>
+
+                <p className="text-sm text-yellow-400 mt-1">
                   {roomActivePower} W active power
                 </p>
               </div>
 
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  isHighUsage
-                    ? "bg-red-500/10 text-red-400"
-                    : "bg-yellow-500/10 text-yellow-400"
-                }`}
-              >
-                {isHighUsage ? "High Usage" : "Active"}
-              </span>
+              <div className="flex items-center gap-3">
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    isHighUsage
+                      ? "bg-red-500/10 text-red-400"
+                      : "bg-yellow-500/10 text-yellow-400"
+                  }`}
+                >
+                  {isHighUsage ? "High Usage" : "Active"}
+                </span>
+
+                <span className="text-sm text-slate-400">
+                  View Room →
+                </span>
+              </div>
 
             </div>
           );
         })}
-
     </div>
   )}
 
