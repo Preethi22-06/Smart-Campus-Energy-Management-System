@@ -5,6 +5,7 @@ import BuildingDetails from "./BuildingDetails";
 import FloorDetails from "./FloorDetails";
 import RoomDetails from "./RoomDetails";
 import DeviceDetails from "./DeviceDetails";
+import Reports from "./Reports";
 
 function App() {
   const path = window.location.pathname;
@@ -12,6 +13,10 @@ function App() {
     if (path.startsWith("/devices/")) {
   return <DeviceDetails />;
 }
+   if (path === "/reports") {
+  return <Reports />;
+}
+
   if (path === "/devices") {
     return <Devices />;
   }
@@ -28,7 +33,7 @@ function App() {
   if (path === "/buildings") {
     return <Buildings />;
   }
-
+   
   return <Dashboard />;
 }
 export default App;
