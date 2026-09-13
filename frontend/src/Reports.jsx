@@ -360,6 +360,108 @@ function Reports() {
                                 </p>
                               </div>
                             </div>
+                            {/* Room Breakdown */}
+<div className="mt-5">
+  <h4 className="mb-3 text-md font-bold text-slate-800">
+    Rooms on this Floor
+  </h4>
+
+  {rooms.length > 0 ? (
+    <div className="space-y-3">
+      {rooms.map((room) => {
+        const roomDevices = room.devices || [];
+
+        const roomActiveDevices = roomDevices.filter(
+          (device) => device.status === "ON"
+        );
+
+        const roomActivePower = roomActiveDevices.reduce(
+          (sum, device) =>
+            sum + Number(device.powerRating || 0),
+          0
+        );
+
+        const roomHasActiveDevices = roomActiveDevices.length > 0;
+
+        return (
+          <div
+            key={room.id}
+            className="rounded-lg border border-slate-200 bg-white p-4"
+          >
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h5 className="font-bold text-slate-800">
+                  Room {room.roomNumber}
+                </h5>
+
+                <p className="text-xs text-slate-500">
+                  Room ID: {room.id}
+                </p>
+              </div>
+
+              <span
+                className={`rounded-full px-3 py-1 text-xs font-bold ${
+                  roomHasActiveDevices
+                    ? "bg-yellow-100 text-yellow-700"
+                    : "bg-green-100 text-green-700"
+                }`}
+              >
+                {roomHasActiveDevices
+                  ? "Devices Active"
+                  : "Everything is OK"}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="rounded-lg bg-slate-50 p-3">
+                <p className="text-xs text-slate-500">
+                  Total Devices
+                </p>
+
+                <p className="text-lg font-bold text-slate-800">
+                  {roomDevices.length}
+                </p>
+              </div>
+
+              <div className="rounded-lg bg-slate-50 p-3">
+                <p className="text-xs text-slate-500">
+                  Active Devices
+                </p>
+
+                <p className="text-lg font-bold text-green-600">
+                  {roomActiveDevices.length}
+                </p>
+              </div>
+
+              <div className="rounded-lg bg-slate-50 p-3">
+                <p className="text-xs text-slate-500">
+                  Active Power
+                </p>
+
+                <p className="text-lg font-bold text-yellow-600">
+                  {formatNumber(roomActivePower)} W
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() =>
+                (window.location.href = `/rooms/${room.id}?floor=${floor.id}`)
+              }
+              className="mt-3 w-full rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+            >
+              View Room Details
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  ) : (
+    <p className="rounded-lg bg-white p-3 text-sm text-slate-500">
+      No rooms available on this floor.
+    </p>
+  )}
+</div>
 
                             {/* Device Breakdown */}
                             <div className="mt-5">
