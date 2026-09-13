@@ -129,11 +129,11 @@ function Reports() {
             </h1>
 
             <p className="mt-1 text-slate-500">
-              Building-wise and floor-wise campus energy monitoring
+              Building-wise, floor-wise, and device-wise energy monitoring
             </p>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <button
               onClick={fetchReports}
               className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 font-semibold text-slate-700 shadow hover:bg-slate-50"
@@ -166,10 +166,13 @@ function Reports() {
 
         {!loading && !error && (
           <>
+            {/* Campus Summary */}
             <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
               <div className="rounded-xl bg-white p-5 shadow">
                 <Building2 className="mb-3 text-blue-600" size={28} />
+
                 <p className="text-sm text-slate-500">Total Buildings</p>
+
                 <h2 className="text-3xl font-bold text-slate-800">
                   {totalBuildings}
                 </h2>
@@ -177,7 +180,9 @@ function Reports() {
 
               <div className="rounded-xl bg-white p-5 shadow">
                 <Layers3 className="mb-3 text-purple-600" size={28} />
+
                 <p className="text-sm text-slate-500">Total Floors</p>
+
                 <h2 className="text-3xl font-bold text-slate-800">
                   {totalFloors}
                 </h2>
@@ -185,7 +190,9 @@ function Reports() {
 
               <div className="rounded-xl bg-white p-5 shadow">
                 <DoorOpen className="mb-3 text-orange-600" size={28} />
+
                 <p className="text-sm text-slate-500">Total Rooms</p>
+
                 <h2 className="text-3xl font-bold text-slate-800">
                   {totalRooms}
                 </h2>
@@ -193,10 +200,13 @@ function Reports() {
 
               <div className="rounded-xl bg-white p-5 shadow">
                 <Activity className="mb-3 text-green-600" size={28} />
+
                 <p className="text-sm text-slate-500">Active Devices</p>
+
                 <h2 className="text-3xl font-bold text-slate-800">
                   {totalActiveDevices}
                 </h2>
+
                 <p className="mt-1 text-xs text-slate-500">
                   Out of {totalDevices} devices
                 </p>
@@ -204,13 +214,16 @@ function Reports() {
 
               <div className="rounded-xl bg-white p-5 shadow">
                 <Zap className="mb-3 text-yellow-600" size={28} />
+
                 <p className="text-sm text-slate-500">Active Power</p>
+
                 <h2 className="text-3xl font-bold text-slate-800">
                   {formatNumber(totalActivePower)} W
                 </h2>
               </div>
             </div>
 
+            {/* Campus Energy Status */}
             <div className="mb-8 rounded-xl bg-white p-6 shadow">
               <div className="mb-3 flex items-center gap-3">
                 {totalActivePower > 300 ? (
@@ -237,6 +250,7 @@ function Reports() {
               </p>
             </div>
 
+            {/* Building Reports */}
             <div className="space-y-6">
               {buildings.map((building) => (
                 <div
@@ -287,7 +301,8 @@ function Reports() {
                             key={floor.id}
                             className="rounded-xl border border-slate-200 bg-slate-50 p-5"
                           >
-                            <div className="mb-4 flex items-center justify-between gap-3">
+                            {/* Floor Header */}
+                            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                               <h3 className="text-lg font-bold text-slate-800">
                                 Floor {floor.floorNumber}
                               </h3>
@@ -303,11 +318,13 @@ function Reports() {
                               </span>
                             </div>
 
+                            {/* Floor Statistics */}
                             <div className="grid grid-cols-2 gap-3">
                               <div className="rounded-lg bg-white p-3">
                                 <p className="text-xs text-slate-500">
                                   Rooms
                                 </p>
+
                                 <p className="text-xl font-bold text-slate-800">
                                   {rooms.length}
                                 </p>
@@ -317,6 +334,7 @@ function Reports() {
                                 <p className="text-xs text-slate-500">
                                   Devices
                                 </p>
+
                                 <p className="text-xl font-bold text-slate-800">
                                   {devices.length}
                                 </p>
@@ -326,6 +344,7 @@ function Reports() {
                                 <p className="text-xs text-slate-500">
                                   Active Devices
                                 </p>
+
                                 <p className="text-xl font-bold text-green-600">
                                   {activeDevices.length}
                                 </p>
@@ -335,12 +354,72 @@ function Reports() {
                                 <p className="text-xs text-slate-500">
                                   Active Power
                                 </p>
+
                                 <p className="text-xl font-bold text-yellow-600">
                                   {formatNumber(activePower)} W
                                 </p>
                               </div>
                             </div>
 
+                            {/* Device Breakdown */}
+                            <div className="mt-5">
+                              <h4 className="mb-3 text-md font-bold text-slate-800">
+                                Devices on this Floor
+                              </h4>
+
+                              {devices.length > 0 ? (
+                                <div className="space-y-2">
+                                  {devices.map((device) => (
+                                    <div
+                                      key={device.id}
+                                      className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white p-3"
+                                    >
+                                      <button
+                                        onClick={() =>
+                                          (window.location.href = `/devices/${device.id}`)
+                                        }
+                                        className="min-w-0 text-left"
+                                      >
+                                        <p className="break-words font-semibold text-blue-700 hover:underline">
+                                          {device.deviceName ||
+                                            `Device ${device.id}`}
+                                        </p>
+
+                                        <p className="text-xs text-slate-500">
+                                          {device.deviceType ||
+                                            "Unknown Type"}
+                                        </p>
+                                      </button>
+
+                                      <div className="flex flex-wrap items-center gap-3">
+                                        <span className="text-sm font-semibold text-slate-600">
+                                          {Number(
+                                            device.powerRating || 0
+                                          ).toFixed(2)}{" "}
+                                          W
+                                        </span>
+
+                                        <span
+                                          className={`rounded-full px-3 py-1 text-xs font-bold ${
+                                            device.status === "ON"
+                                              ? "bg-green-100 text-green-700"
+                                              : "bg-slate-200 text-slate-600"
+                                          }`}
+                                        >
+                                          {device.status || "UNKNOWN"}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <p className="rounded-lg bg-white p-3 text-sm text-slate-500">
+                                  No devices available on this floor.
+                                </p>
+                              )}
+                            </div>
+
+                            {/* Floor Details Button */}
                             <button
                               onClick={() =>
                                 (window.location.href = `/floors/${floor.id}`)
