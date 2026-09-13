@@ -13,27 +13,36 @@ import {
 
 function Reports() {
   const [buildings, setBuildings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+const [loading, setLoading] = useState(true);
+const [refreshing, setRefreshing] = useState(false);
+const [error, setError] = useState("");
 
-  const fetchReports = async () => {
-    try {
-      setError("");
-
-      const response = await fetch("http://localhost:8080/buildings");
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch building reports");
-      }
-
-      const data = await response.json();
-      setBuildings(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+  const fetchReports = async (isManualRefresh = false) => {
+  try {
+    if (isManualRefresh) {
+      setRefreshing(true);
     }
-  };
+
+    setError("");
+
+    const response = await fetch("http://localhost:8080/buildings");
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch building reports");
+    }
+
+    const data = await response.json();
+    setBuildings(data);
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+
+    if (isManualRefresh) {
+      setRefreshing(false);
+    }
+  }
+};
 
   useEffect(() => {
     fetchReports();
@@ -134,13 +143,17 @@ function Reports() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button
-              onClick={fetchReports}
-              className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 font-semibold text-slate-700 shadow hover:bg-slate-50"
-            >
-              <RefreshCw size={18} />
-              Refresh
-            </button>
+       <button
+  onClick={() => fetchReports(true)}
+  disabled={refreshing}
+  className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 font-semibold text-slate-700 shadow hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+>
+  <RefreshCw
+    size={18}
+    className={refreshing ? "animate-spin" : ""}
+  />
+  {refreshing ? "Refreshing..." : "Refresh"}
+</button>
 
             <button
               onClick={() => (window.location.href = "/")}
